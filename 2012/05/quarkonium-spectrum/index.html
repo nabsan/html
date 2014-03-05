@@ -1,0 +1,123 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>the spectrum of quarkonium - nabsan</title>
+  <meta name="description" content="A computational physics project on 'Masses of S-State Quarkonium via the Roots of the Airy Function Ai(x)'.">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2012/05/quarkonium-spectrum">The Spectrum of Quarkonium</a></h1>
+    <h2>Friday 18, May 2012 in <b><a href="/search.html?category=physics">Physics</a></b></h2>
+    <h3 class="comment-count"><a href="/2012/05/quarkonium-spectrum/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <p>As part of my degree I'm taking a computing course which requires two project reports. The second was on finding the roots of <a href="http://mathworld.wolfram.com/AiryFunctions.html">the first Airy function</a> in order to find the charm and beauty quark masses. The first one is in a <a href="#">previous post</a>.</p>
+
+<p>The report is written in LaTeX, the problem solving was done in Python, and the plotting was done with Mathematica. The <a href="https://github.com/alexpearce/meson-masses">entire project is open source on GitHub</a>.</p>
+
+<h2>Compiling</h2>
+
+<p>The LaTeX document has a few dependencies.</p>
+
+<ol>
+<li><code>atlasphysics</code> which is bundled in the repository.</li>
+<li><code>siunitx</code> is found <a href="ftp://tug.ctan.org/tex-archive/macros/latex/contrib/siunitx/">here</a>. It's a nice package which simplifies typesetting units.</li>
+<li>Standard packages such as <code>amsmath</code>, <code>graphicx</code>, <code>subfigure</code> and <code>float</code>. I use the <a href="http://www.tug.org/mactex/2011/">MacTex</a> distribution for OS X, which ships with these packages by default (and ships with <code>siunitx</code> too).</li>
+</ol>
+
+
+<p>You can view the <a href="https://github.com/downloads/alexpearce/meson-masses/Report.pdf">final compiled PDF on GitHub</a>.</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=Physics">physics</a></li>
+    
+    <li><a href="/search.html?tags=Python">python</a></li>
+    
+    <li><a href="/search.html?tags=LaTeX">latex</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "The Spectrum of Quarkonium",
+      disqus_identifier = "/2012/05/quarkonium-spectrum",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("false" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/assets/js/alexpearce.js"></script>
+</body>
+</html>

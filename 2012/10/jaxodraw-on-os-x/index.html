@@ -1,0 +1,230 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>jaxodraw on os x with mactex - nabsan</title>
+  <meta name="description" content="Tips on running the Feynman diagram generator JaxoDraw on OS X">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2012/10/jaxodraw-on-os-x">JaxoDraw on OS X with MacTex</a></h1>
+    <h2>Saturday 27, October 2012 in <b><a href="/search.html?category=tips">Tips</a></b></h2>
+    <h3 class="comment-count"><a href="/2012/10/jaxodraw-on-os-x/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <p>Creating <a href="http://en.wikipedia.org/wiki/Feynman_Diagrams">Feynman Diagrams</a> in LaTeX can be a real pain. There are packages to simplify the process, such as <a href="http://osksn2.hep.sci.osaka-u.ac.jp/~taku/osx/feynmp.html">feynMP</a>, but the syntax is verbose, cumbersome, and unintuitive.</p>
+
+<p>As LaTeX is generally such an unpleasant environment in which to create images, it's often much less painful to use a GUI for the task. For Feynman diagrams there is the open source <a href="http://jaxodraw.sourceforge.net">JaxoDraw</a>.</p>
+
+<p>Unfortunately, JaxoDraw didn't work out-of-the-box for me. Namely, I couldn't export the diagrams directly to the vector image format EPS, nor could I draw gluon lines without the program crashing.</p>
+
+<p>The rest of this post explains how to get JaxoDraw in tip-top condition, so that you'll be able to create and save smashing diagrams like this:</p>
+
+<p><img src="/assets/img/jaxodraw-on-os-x/feynman-diagram.png" alt="A nifty Feynman diagram" /></p>
+
+<h2>Prerequisites</h2>
+
+<p>As JaxoDraw is a Java application, you need to have a Java runtime installed. OS X no longer ships with a Java runtime by default, so open a Terminal window (in <code>/Applications/Utilities/Terminal.app</code>) and execute the following.</p>
+
+<pre><code>java -version
+</code></pre>
+
+<p>You'll be told that you don't have Java installed and asked if you like to install it, so install it.</p>
+
+<p>Keep the Terminal window open as we'll be using it later.</p>
+
+<p>As we're dealing with LaTeX on OS X, we should have the de facto OS X LaTeX distribution installed: <a href="http://www.tug.org/mactex/">MacTex</a>. If don't have it already download the <code>MacTex.pkg</code> file from the homepage (it's over 2GB in size) and install it.</p>
+
+<p>Now we should have everything we need, so let's acquire JaxoDraw and get it up and running.</p>
+
+<h2>Getting JaxoDraw Working</h2>
+
+<p>Download the <a href="http://jaxodraw.sourceforge.net/download/bin.html">JaxoDraw binary</a> and the <a href="http://jaxodraw.sourceforge.net/download/dmg.html">JaxoDraw OS X application</a>.</p>
+
+<p>The OS X application won't launch, but we're going to create a <em>new</em> application using the icon from the broken application and the binary we just downloaded.</p>
+
+<p>Unzip the binary archive by double clicking on it and note the <code>jaxodraw-2.1-0.jar</code> file that's extracted; this is "the binary". Next, mount the application disk image and execute the following command in Terminal.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>cp /Volumes/jaxodraw-2.1-0/JaxoDraw.app/Contents/Resources/jaxoicon2_128.icns <span class="se">\</span>
+  ~/Desktop/
+</code></pre></div>
+
+
+<p>This will copy the icon image from the JaxoDraw application to your desktop. You can unmount the disk and delete the disk image now; we're done with it.</p>
+
+<p>We can launch and play around with JaxoDraw straight away. Assuming the JaxoDraw directory that we created when unarchiving the <code>jaxodraw-2.1-0-bin.tar.gz</code> file is in your <code>Downloads</code> folder, we can launch JaxoDraw with the following command:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>java -jar ~/Downloads/jaxodraw-2.1-0/jaxodraw-2.1-0.jar
+</code></pre></div>
+
+
+<p>Nearly everything works, but if you try to draw a gluon line (the curly one) the app crashes with an error message similar to</p>
+
+<blockquote><p><code>Invalid memory access of location 0x170f2240 rip=0x1170d055d</code></p>
+
+<p><code>[1]    1188 segmentation fault  java -jar ~/Downloads/jaxodraw-2.1-0/jaxodraw-2.1-0.jar</code></p></blockquote>
+
+<p>Luckily, this problem is <a href="http://sourceforge.net/tracker/?func=detail&amp;aid=2561249&amp;group_id=142124&amp;atid=751521">well known</a> and solvable; we just need to run the file in 32-bit mode:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>java -d32 -jar ~/Downloads/jaxodraw-2.1-0/jaxodraw-2.1-0.jar 
+</code></pre></div>
+
+
+<p>Now we can draw gluons, huzzah!</p>
+
+<p>If you now try to export your diagram, however, you'll get another error.</p>
+
+<blockquote><p>Cannot execute command!
+Please try 'Export LaTeX' and run latex manually.</p></blockquote>
+
+<p>There's two problems here.</p>
+
+<ol>
+<li>We don't have the axodraw LaTeX package installed,</li>
+<li>JaxoDraw doesn't know where our LaTeX binaries are.</li>
+</ol>
+
+
+<p>So let's fix those.</p>
+
+<p>Download the <a href="http://sourceforge.net/projects/jaxodraw/files/axodraw4j/axodraw4j_2008_11_19/axodraw4j_2008_11_19.tar.gz/download">axodraw4j archive</a> and extract it.</p>
+
+<p>Assuming you now have a folder called <code>axodraw4j_2008_11_19</code> in your <code>Downloads</code> folder, execute the following to create the directories where LaTeX looks for packages in and copy the package to that directory:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/Library/texmf/tex/latex
+<span class="nv">$ </span>cp ~/Downloads/axodraw4j_2008_11_19/axodraw4j.sty ~/Library/texmf/tex/latex/
+</code></pre></div>
+
+
+<p>You may need to restart JaxoDraw at this point. To run it, you must use the <code>java</code> command as above. This is impractical, but we'll fix that in just a minute. (You can delete the axodraw stuff in your Downloads folder now; we're done with it).</p>
+
+<p>With JaxoDraw restarted, go to <code>Options -&gt; Preferences</code> and enter <code>/usr/texbin/latex</code> inside the "LaTeX path" field and <code>/usr/texbin/dvips</code> inside the "dvips path" field.</p>
+
+<p>If you now create a test diagram and do <code>File -&gt; Export</code>, choosing "LaTeX -> EPS" as the file format, JaxoDraw will now successfully export your diagram as an EPS file.</p>
+
+<p>Great, so now the only thing that's left is to create a more convenient way of launching the app.</p>
+
+<h2>Creating JaxoDraw.app</h2>
+
+<p>When we installed the Java runtime, it provided a few extra tools to make the life of a Java developer a little easier. One of these tools is called <a href="http://nakkaya.com/2009/12/12/creating-mac-os-x-app-bundle-for-java-applications/">"Jar Bundler.app"</a>. Sounds promising!</p>
+
+<p>To open the jar bundler, you can either navigate to <code>/usr/share/java/Tools</code> or open it in Terminal</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>open /usr/share/java/Tools/Jar<span class="se">\ </span>Bundler.app
+</code></pre></div>
+
+
+<p>This will allow us to bundle the <code>jaxodraw-2.1-0.jar</code> file in to a fully-fledged <code>.app</code>.</p>
+
+<p>Next to the "Main Class" field, click "Choose..." and select the <code>jaxodraw-2.1-0.jar</code> file. Click the down arrow just to the left of the "Choose..." button and select <code>net.sf.jaxodraw.JaxoDraw</code>. Click "Choose Icon..." and select the icon file on your Desktop that we copied there earlier. Your Jar Bundler window should look like this:</p>
+
+<p><img src="/assets/img/jaxodraw-on-os-x/jar-bundler.png" alt="Jar Bundler window configured for JaxoDraw" /></p>
+
+<p>Now hit "Create Application..." and save it to your Applications directory. (Note that the Jar Bundler helpfully renames the application to whatever folder you click on, so when you click on the Applications directory, it will call the JaxoDraw app "Applications", so make sure to change the field to "JaxoDraw" before saving.)</p>
+
+<p>Fantastic, we've got a <code>JaxoDraw.app</code> file sitting in our Applications directory. You can run it just like any other OS X app now. But... wait. Gluon lines crash the app! And we can't export to EPS anymore!</p>
+
+<p>Never fear. The app isn't <a href="http://lists.apple.com/archives/java-dev/2009/Jul/msg00125.html">launching in 32-bit mode</a> at the moment. To change this, right click on the JaxoDraw app and choose "Get Info", then check the "Open in 32-bit mode" box. You can reopen JaxoDraw and verify that gluons are now drawable.</p>
+
+<p>To fix the EPS export issue, we just need to retrace the steps we took earlier: open the JaxoDraw preferences and enter the correct path to <code>latex</code> and <code>dvips</code> (that's <code>/usr/texbin/latex</code> and <code>/usr/texbin/dvips</code>). Export to EPS is now working again.</p>
+
+<p>To make the change persist when you close and reopen JaxoDraw, click "Save" when updating the paths in the preferences window.</p>
+
+<h2>Caveats</h2>
+
+<p>The only thing I haven't been able to get working, because it's not something that bothers me, is the "Preview" feature in the export window. It requires a PostScript viewer like <a href="http://pages.cs.wisc.edu/~ghost/">Ghostview</a> to work. I imagine that you could download such a viewer and update the "Preferred Postscript viewer" field in the JaxoDraw preferences if you require the preview feature.</p>
+
+<p>Now that we've finished creating a decent JaxoDraw application bundle, the JaxoDraw image on the desktop and any JaxoDraw stuff in the Downloads folder can be deleted.</p>
+
+<p>Happy diagramming!</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=OS X">os x</a></li>
+    
+    <li><a href="/search.html?tags=Physics">physics</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "JaxoDraw on OS X with MacTex",
+      disqus_identifier = "/2012/10/jaxodraw-on-os-x",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/assets/js/alexpearce.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>deploying to a vps with capistrano - nabsan</title>
+  <meta name="description" content="A step-by-step tutorial on deploying Ruby and static apps to a VPS with Capistrano.">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2012/07/deploying-to-a-vps-with-capistrano">Deploying to a VPS With Capistrano</a></h1>
+    <h2>Wednesday 11, July 2012 in <b><a href="/search.html?category=tutorials">Tutorials</a></b></h2>
+    <h3 class="comment-count"><a href="/2012/07/deploying-to-a-vps-with-capistrano/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <p>Following on from the previous tutorial on <a href="#">how to set up a Linux VPS for Ruby apps</a>, we'll get a simple Ruby site up-and-running by deploying it to our server with <a href="https://github.com/capistrano/capistrano">Capistrano</a>.</p>
+
+<p>Capistrano simplifies many of the common tasks encountered when to deploying an app to one or more servers, allowing a push with a simple <code>cap deploy</code>. Along with Ruby apps, it can be used to deploy static (HTML) pages. The nice thing about using Capistrano rather than something such as <a href="http://www.samba.org/ftp/rsync/rsync.html"><code>rsync</code></a> is that we can easily pull the latest version from a git repository, as well as rollback to a previous version.</p>
+
+<p>I will assume that our VPS has been set up as in my <a href="#">VPS setup</a> post, but the essentials are:</p>
+
+<ul>
+<li>SSH access</li>
+<li>Ruby</li>
+<li>A server (nginx, Apache, &hellip;)</li>
+<li>A git repository for the app</li>
+</ul>
+
+
+<p>So, nothing extraordinary.</p>
+
+<p>We'll be deploying a <a href="http://sinatrarb.com/">Sinatra</a> application. As an example, we'll quickly create a "Hello World!" app and then get it working on the server. Although we'll deploy a <a href="http://www.sinatrarb.com/">Sinatra</a> app to demonstrate the process, but it extends trivially to other Ruby apps.</p>
+
+<h2>Local Setup</h2>
+
+<p>Let's create a directory to hold our app, create the Gemfile and install the required gems.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir testing
+<span class="nv">$ </span><span class="nb">cd </span>testing
+<span class="nv">$ </span><span class="nb">echo</span> -e <span class="s2">&quot;source :rubygems\n\ngem &#39;sinatra&#39;&quot;</span> &gt;&gt; Gemfile
+<span class="nv">$ </span>bundle install --path vendor/bundle
+</code></pre></div>
+
+
+<p>Passing the <code>--path</code> argument to the <code>bundle</code> command allows us to locally install gems without messing with systems gems (it allows us to avoid things like RVM gemsets).</p>
+
+<p>Now the Sinatra gem is installed, we'll initialise a <a href="http://git-scm.com/">git</a> repository.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git init .
+<span class="nv">$ </span><span class="nb">echo</span> -e <span class="s2">&quot;.bundle/\nvendor/bundle&quot;</span> &gt;&gt; .gitignore
+<span class="nv">$ </span>git add .
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;Initial commit.&quot;</span>
+</code></pre></div>
+
+
+<p>The <code>echo</code> is creating a <code>.gitignore</code> file which tells git which files and folders to ignore; we don't need to track the <code>.bundle</code> directory. We <code>git add</code> all the files to the staging area and then commit them with a message.</p>
+
+<p>In order for Capistrano to deploy our app, we'll tell it to use git. This means setting up a remote repository, which <a href="http://github.com">GitHub</a> provides for free. Create a <a href="https://github.com/new">new repository on GitHub</a> and add the remote repo to our local one, then push to it.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git remote add origin https://github.com/USERNAME/REPONAME.git
+<span class="nv">$ </span>git push -u origin master
+</code></pre></div>
+
+
+<p>Our 'app' now exists locally and remotely. When we makes changes locally, we <code>git commit</code> the changes and the <code>git push</code> them to GitHub. Each commit effectively acts as a separate release which Capistrano can deploy.</p>
+
+<h3>Creating the App</h3>
+
+<p>We'll create a very simple "Hello World!" Sinatra app to test everything works. Firstly, create the application files.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>touch app.rb config.ru
+</code></pre></div>
+
+
+<p>Then fill <code>app.rb</code>, using your favourite editor, with the following.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># Bundler</span>
+<span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
+<span class="nb">require</span> <span class="s2">&quot;bundler/setup&quot;</span>
+
+<span class="c1"># Sinatra</span>
+<span class="nb">require</span> <span class="s2">&quot;sinatra&quot;</span>
+
+<span class="c1"># The app</span>
+<span class="k">class</span> <span class="nc">Testing</span> <span class="o">&lt;</span> <span class="ss">Sinatra</span><span class="p">:</span><span class="ss">:Base</span>
+  <span class="n">get</span> <span class="s2">&quot;/&quot;</span> <span class="k">do</span>
+    <span class="s2">&quot;Hello, World!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+
+
+<p>And fill <code>config.ru</code> with the following.</p>
+
+<div class="highlight"><pre><code class="bash">require <span class="s2">&quot;./app&quot;</span>
+
+run Testing
+</code></pre></div>
+
+
+<p>The <a href="http://www.sinatrarb.com/documentation">docs</a> give a comprehensive overview of how to use Sinatra. We can test the app locally to make sure every thing's OK.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bundle <span class="nb">exec </span>rackup config.ru
+...
+INFO  WEBrick::HTTPServer#start: <span class="nv">pid</span><span class="o">=</span>4885 <span class="nv">port</span><span class="o">=</span>9292
+...
+</code></pre></div>
+
+
+<p>Launch <a href="http://localhost:9292"><code>localhost:9292</code></a> to view the site.</p>
+
+<p><img src="/assets/img/deploying-to-a-vps-with-capistrano/local-hello-world.png" alt="A &quot;Hello World&quot; Sinatra app." /></p>
+
+<p>Hurrah! Let's configure the app for deployment. Add <code>gem 'capistrano'</code> to your Gemfile, which should now look like this:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">source</span> <span class="ss">:rubygems</span>
+
+<span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
+
+<span class="n">gem</span> <span class="s1">&#39;capistrano&#39;</span>
+</code></pre></div>
+
+
+<p>and then install the gem. No need to worry about adding the <code>--path</code> argument; Bundler remembers the preference in <code>.bundle/config</code>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bundle install
+</code></pre></div>
+
+
+<p>Add the app file to git repository, commit, then add the changes to the Gemfile, then finally commit again.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git add app.rb config.ru
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;Add the Sinatra app.&quot;</span>
+<span class="nv">$ </span>git commit -a -m <span class="s2">&quot;Add Capistrano.&quot;</span>
+<span class="nv">$ </span>git push
+</code></pre></div>
+
+
+<p>The <code>-a</code> flag adds all modified files, which in this case is the <code>Gemfile</code> and the <a href="http://stackoverflow.com/questions/4151495/should-gemfile-lock-be-included-in-gitignore">lock file</a> <code>Gemfile.lock</code>.</p>
+
+<h3>Setting up Capistrano</h3>
+
+<p>To get our app set up with Capistrano, we need to 'capify' the folder. This creates two files: <code>Capify</code>, at the root of the app; and <code>deploy.rb</code>, inside a <code>config</code> directory.
+The <code>deploy.rb</code> file is where almost all of the configuration is done. Rather than going through <a href="https://github.com/capistrano/capistrano/wiki/2.x-Significant-Configuration-Variables">all the possible configuration options</a>, we'll use a <a href="https://github.com/alexpearce/templates/blob/master/deploy.rb">template deploy file</a> I've created. It's heavily commented, make sure to understand what it's doing. There's a few things you'll need to change.</p>
+
+<ul>
+<li><code>:application</code>: Whatever you like. It just determines what the app's folder on the server is called.</li>
+<li><code>:repository</code>: Your GitHub repository, or where ever you're hosting the repo remotely.</li>
+<li>The <code>:app</code>, <code>:web</code> and <code>:db</code> roles: The IP address or FQDN of the VPS to deploy to.</li>
+</ul>
+
+
+<p>If you didn't set up your VPS using the <a href="#">previous tutorial</a>, there may be a few other things you need to change.</p>
+
+<ul>
+<li><code>:user</code>: If you're not using a deploy user.</li>
+<li>If you're not using <a href="http://www.modrails.com/">Passenger</a>, the <code>start</code>, <code>stop</code>, and <code>restart</code> tasks will need adjusting.</li>
+<li>The <code>:admin</code> namespace contains nginx specific tasks for symlinking the hosts file (which we'll get to shortly) and restarting the server. For <a href="http://httpd.apache.org/">Apache</a> servers the changes needed here will be minimal.</li>
+</ul>
+
+
+<p>Finally, we'll require an nginx 'hosts' file specific to our app. Again, we'll use a <a href="https://github.com/alexpearce/templates/blob/master/nginx.app.conf">template nginx hosts file</a> I've created. Let's retrieve both of the files.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>capify .
+...
+
+<span class="nv">$ </span><span class="nb">cd </span>config
+<span class="nv">$ </span>curl https://raw.github.com/alexpearce/templates/master/nginx.app.conf -o nginx.server
+<span class="nv">$ </span>curl https://raw.github.com/alexpearce/templates/master/deploy.rb -o deploy.rb
+</code></pre></div>
+
+
+<p>Now <strong>edit them accordingly</strong>. The nginx file requires a few changes.</p>
+
+<ul>
+<li><code>server_name</code>: The IP address of FQDN the app will be accessed at.</li>
+<li><code>root</code>: Change <code>APPNAME</code> to folder name of app, identical to the <code>:application</code> variable in the Capistrano deploy file.</li>
+<li>Delete the <code>location ^~ /assets/</code> block. We don't need it as we're not serving a Rails app.</li>
+</ul>
+
+
+<p><strong>Add the files and commit them</strong> the usual way, then push to GitHub.</p>
+
+<p>That's it! We're all done locally, we just have a few things to do on our VPS.</p>
+
+<h2>Remote Setup</h2>
+
+<p>All commands below are to be run <em>on the remote VPS</em>, so log in to the VPS via SSH with <code>ssh user@VPS_IP</code>.</p>
+
+<p>In order to allow automated pulling from GitHub, we'll touch GitHub over SSH so our server knows the certficate. As it's the <code>deploy</code> user who deploys app, we'll assume the identity of <code>deploy</code>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>su - deploy
+<span class="nv">$ </span>ssh github.com
+y
+</code></pre></div>
+
+
+<p>And that's it! Nice and simple.</p>
+
+<h2>Deploying</h2>
+
+<p>We're back <em>working locally</em> now.</p>
+
+<p>Inside the app directory, we just need to run a few commands.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>cap deploy:setup
+<span class="nv">$ </span>cap deploy:cold
+</code></pre></div>
+
+
+<p>Done! Visit the site using the IP address or FQDN specified in the <code>nginx.server</code> file.</p>
+
+<p><img src="/assets/img/deploying-to-a-vps-with-capistrano/live-hello-world.png" alt="The &quot;Hello World&quot; app live on the server." /></p>
+
+<p>To fully test our deployment we'll change the "Hello World" text to something different, commit and push the changes then deploy.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>nano app.rb
+...
+<span class="nv">$ </span>git commit -a -m <span class="s2">&quot;Updated app.&quot;</span>
+<span class="nv">$ </span>git push
+<span class="nv">$ </span>cap deploy
+</code></pre></div>
+
+
+<p>Now refresh the live app.</p>
+
+<p><img src="/assets/img/deploying-to-a-vps-with-capistrano/live-change.png" alt="The deployment worked." /></p>
+
+<p>Excellent, everything works!</p>
+
+<p>We've now created a workflow for updating our app. The procedure in this article is very similar no matter what Ruby application your deploying. For apps that talk to a database, you'll just need to create the database on the server before the cold deploy.</p>
+
+<p>The advantage with this approach is git management, and for future GitHub-hosted apps we won't have to log in to the VPS at all. We can also deploy HTML apps this way, just place all files that need to have public access inside a <code>public</code> directory, then <code>capify</code> the app as normal.</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=Capistrano">capistrano</a></li>
+    
+    <li><a href="/search.html?tags=Ruby">ruby</a></li>
+    
+    <li><a href="/search.html?tags=nginx">nginx</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "Deploying to a VPS With Capistrano",
+      disqus_identifier = "/2012/07/deploying-to-a-vps-with-capistrano",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/assets/js/alexpearce.js"></script>
+</body>
+</html>
