@@ -1,0 +1,214 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>simple jekyll searching - nabsan</title>
+  <meta name="description" content="How to add simple JSON-based searching to Jekyll site.">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2012/04/simple-jekyll-searching">Simple Jekyll Searching</a></h1>
+    <h2>Sunday 22, April 2012 in <b><a href="/search.html?category=tips">Tips</a></b></h2>
+    <h3 class="comment-count"><a href="/2012/04/simple-jekyll-searching/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <p>I <a href="#">recently made</a> this blog with <a href="https://github.com/mojombo/jekyll">Jekyll</a>. It's a nice little program once you get used to it's methodology. Jekyll's daughter, <a href="http://octopress.org/">Octopress</a>, touts itself as being "for hackers" and Jekyll itself isn't much different in this respect.</p>
+
+<p>The <a href="https://github.com/mojombo/jekyll/wiki">docs</a> are lacking examples and this did throw me initially, even leading me to put off making the site for a month or so. Eventually I got round to building the site and found Jekyll to be almost pleasurable to work with.</p>
+
+<p>There is a certain satisfaction to implementing your own features. When you use packages which do the heavy lifting for you, it's often the case that it's not quite how you'd like it and then you go around changing things anyway. (This was my experience with Octopress, which I eventually abandoned as I found it too opinionated.)</p>
+
+<h2>Categories &amp; Tags</h2>
+
+<p>My biggest problem with Jekyll was its seeming lack of support for category and tag index pages. In a blog, visitors generally expect to be able to following tag and category links to a page listing other similarly-grouped pages.</p>
+
+<p>Jekyll provides no clear cut way of implementing this, but it is possible and not complicated, so I'll go through my own way of solving the problem.</p>
+
+<h2>search.json</h2>
+
+<p>The answer was in a <a href="http://developmentseed.org/blog/2011/09/09/jekyll-github-pages/">Development Seed blog post on Jekyll</a>. In particular, they mention how they had created a <code>search.json</code> file via Jekyll which they use in their AJAX auto-complete searching.</p>
+
+<p>While I wasn't look for auto-completion, the idea of creating a JSON index of the site was perfect. I could create a script which searched the JSON index for some matching parameter that I passed. After a little thought on deciding how to pass what I wanted to display, I settled on using GET variables.</p>
+
+<p>I created <code>search.json</code> (using a blank <a href="https://github.com/mojombo/jekyll/wiki/YAML-Front-Matter">YAML front matter</a> to tell Jekyll to parse the file with <a href="http://liquidmarkup.org/">Liquid</a>):</p>
+
+<div class="highlight"><pre><code class="text">---
+---
+[
+  &lt;% for post in site.posts %&gt;
+    &lt;% include post.json %&gt;,
+  &lt;% endfor %&gt;
+  null
+]
+</code></pre></div>
+
+
+<p>with the <code>post.json</code> partial in <code>_includes</code>.</p>
+
+<div class="highlight"><pre><code class="text">{
+  &quot;title&quot;    : &quot;&lt;%= post.title %&gt;&quot;,
+  &quot;category&quot; : &quot;&lt;%= post.category %&gt;&quot;,
+  &quot;tags&quot;     : [&lt;% for tag in post.tags %&gt;&quot;&lt;%= tag %&gt;&quot;,&lt;% endfor %&gt; null],
+  &quot;href&quot;     : &quot;&lt;%= post.url %&gt;&quot;,
+  &quot;date&quot;     : {
+    &quot;day&quot;   : &quot;&lt;%= post.date | date: &quot;%d&quot; %&gt;&quot;,
+    &quot;month&quot; : &quot;&lt;%= post.date | date: &quot;%B&quot; %&gt;&quot;,
+    &quot;year&quot;  : &quot;&lt;%= post.date | date: &quot;%Y&quot; %&gt;&quot;
+  }
+}
+</code></pre></div>
+
+
+<p><code>search.json</code> now generates an array containing <a href="/search.json">all of the sites posts</a>.</p>
+
+<h2>Implementation</h2>
+
+<p>First was <code>search.html</code>.</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;results&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h1&gt;</span><span class="c">&lt;!-- `key` listing for `value` --&gt;</span><span class="nt">&lt;/h1&gt;</span>
+  
+  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;results&quot;</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- results lists --&gt;</span>
+  <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div>
+
+
+<p>This is a blank <code>div</code> which will hold the search results. I wanted to have tag and category pages, so in my post templates I linked categories with <code>/search.html?category=&lt;%= page.category | downcase %&gt;</code> and similarly for tags. The JavaScript then needs to grab the GET parameter value, then search the JSON for it.</p>
+
+<p>The main script is pretty simple.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;category&#39;</span> <span class="o">:</span> <span class="nx">getParam</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">),</span>
+  <span class="s1">&#39;tags&#39;</span>     <span class="o">:</span> <span class="nx">getParam</span><span class="p">(</span><span class="s1">&#39;tags&#39;</span><span class="p">)</span>
+<span class="p">};</span>
+
+<span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">map</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">&#39;/search.json&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">posts</span> <span class="o">=</span> <span class="nx">filterPostsByPropertyValue</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">posts</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Display &#39;no results found&#39; or similar here</span>
+        <span class="nx">noResultsPage</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">layoutResultsPage</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">posts</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+
+
+<p>We have a map of objects we'd like to search (categories and tags), where <code>getParam(key)</code> retrieves the value of the GET parameter with key <code>key</code>. For the link <code>/search.html?category=testing</code>, <code>getParam('category')</code> returns <code>testing</code>.</p>
+
+<p>Iterating over <code>map</code>, if the parameter has been specified we grab the JSON index, filter the posts which have the desired properties (posts which match e.g. <code>post.category == 'testing'</code>) and then display them.</p>
+
+<p>The function <code>layoutResultsPage</code> is almost entirely site-specific. In my case, I cycle through each post appending a <code>li</code> containing a few select properties (date, title, and tags) to a <code>ul</code>.</p>
+
+<h2>Caveats</h2>
+
+<ol>
+<li>I only use one category per post, but the script <em>should</em> be generic enough to handle multiple categories.</li>
+<li>The script contains a fair amount of HTML, which is ugly inside JavaScript.</li>
+<li>It is not designed to deal with multiple parameters such as <code>?tags=hello&amp;categories=world</code>.</li>
+<li>As it is, the script is heavily tailored for my own use.</li>
+</ol>
+
+
+<h2>Source</h2>
+
+<p>You can view the <a href="https://github.com/alexpearce/alexpearce.github.com/blob/master/assets/js/alexpearce.js">final JavaScript on Github</a> (or in this site's <a href="/assets/js/alexpearce.js">source</a>). I've tried to concisely document any thing particularly funky.</p>
+
+<p>You can try out the script by clicking any tag or category on this site or <a href="/search.html?category=tips">this example</a>.</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=Jekyll">jekyll</a></li>
+    
+    <li><a href="/search.html?tags=JavaScript">javascript</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "Simple Jekyll Searching",
+      disqus_identifier = "/2012/04/simple-jekyll-searching",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/assets/js/alexpearce.js"></script>
+</body>
+</html>

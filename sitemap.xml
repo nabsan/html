@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Posts -->
+  <url><loc>http://nabsan.github.io/2014/03/hello2</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2014/03/hello2</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2013/05/hwave_ecoral.js</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2013/02/python-and-root-on-os-x</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/11/fixing-a-tmva-error</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/10/merging-root-ntuples</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/10/jaxodraw-on-os-x</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/08/installing-root-on-mountain-lion</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/07/deploying-to-a-vps-with-capistrano</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/06/jekyll-sitemaps</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/06/setting-up-a-vps</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/05/quarkonium-spectrum</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/04/scattering-cross-sections</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/04/escaping-liquid-tags-in-jekyll</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/04/simple-jekyll-searching</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/04/hello</loc></url>
+  
+  <url><loc>http://nabsan.github.io/2012/04/hello</loc></url>
+  
+  
+  <!-- Tag Indexes -->
+  <url><loc>http://nabsan.github.io/search.html?tags=jekyll</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=javascript</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=physics</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=python</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=c</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=latex</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=sysadmin</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=ruby</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=nginx</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=capistrano</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=root</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=osx</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=os x</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=tmva</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=osx</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?tags=develop javascript</loc></url>
+  
+  
+  <!-- Category Indexes -->
+  <url><loc>http://nabsan.github.io/search.html?category=general</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?category=tips</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?category=physics</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?category=tutorials</loc></url>
+  
+  <url><loc>http://nabsan.github.io/search.html?category=develop</loc></url>
+  
+</urlset>

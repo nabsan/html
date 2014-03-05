@@ -1,0 +1,354 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>setting up an ubuntu vps with rbenv, nginx and passenger - nabsan</title>
+  <meta name="description" content="A step-by-step tutorial on deploying Ruby apps to a Linux VPS, installing nginx, Passenger, rbenv, and PostgreSQL along the way.">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2012/06/setting-up-a-vps">Setting Up an Ubuntu VPS With rbenv, Nginx and Passenger</a></h1>
+    <h2>Tuesday 19, June 2012 in <b><a href="/search.html?category=tutorials">Tutorials</a></b></h2>
+    <h3 class="comment-count"><a href="/2012/06/setting-up-a-vps/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <p>Every once in a while I buy a new VPS, mostly because I'm not entirely satisfied with my current setup. My stack of choice is usually <a href="https://rvm.io/">RVM</a> for Ruby management, the <a href="http://httpd.apache.org/">Apache web server</a>, <a href="http://www.modrails.com/">Passenger</a> for allowing Apache to run Ruby apps like Rails and Sinatra, and <a href="http://www.mysql.com/">MySQL</a> for the database.</p>
+
+<p>This time around I decided to use some other software that seems to be popular with the community.</p>
+
+<ul>
+<li>For the webserver I chose <a href="http://nginx.org">nginx</a>. There are many <a href="http://www.wikivs.com/wiki/Apache_vs_nginx">comparisons</a> of Apache and nginx, but for such a small-scale server as mine it really boiled down to curiosity.</li>
+<li>RVM has received <a href="http://rakeroutes.com/blog/how-to-use-bundler-instead-of-rvm-gemsets/">some flack</a>, principally because of <a href="http://gembundler.com/">Bundler's</a> ability to manage "gemsets" with Gemfiles. I went with <a href="https://github.com/sstephenson/rbenv">rbenv</a> to <a href="http://shapeshed.com/using-rbenv-to-manage-rubies/">manage my rubies</a>.</li>
+<li>I stuck with Passenger for allowing the web server to run Ruby apps. Although other solutions exist, like <a href="http://unicorn.bogomips.org/">Unicorn</a> and <a href="http://code.macournoyer.com/thin/">Thin</a>, the configuration required was a little too much for me.</li>
+<li><a href="http://www.postgresql.org/">PostgreSQL</a> is a popular choice these days. If it's good enough for <a href="http://railscasts.com/">Ryan Bates</a> then it's good enough for me!</li>
+</ul>
+
+
+<p>Now that the stack's chosen, it's just a case of setting it all up.</p>
+
+<h2>Setting Up Ubuntu</h2>
+
+<p>In this section all commands are executed as the <code>root</code> user, as when you log in to a fresh install. If you've already got a user set up, prefix all the commands in this section with <code>sudo</code>.</p>
+
+<p>I chose <a href="http://www.ubuntu.com/">Ubuntu</a> as my Linux distribution of choice. The lastest Ubuntu image provided by my VPS host was 11.04, so first I had to update Ubuntu to the latest LTS, 12.04. First, make sure we're up-to-date.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>apt-get -y update
+<span class="nv">$ </span>apt-get -y upgrade
+</code></pre></div>
+
+
+<p>The <code>-y</code> flag assumes a 'yes' response for all prompts. Next, as there's no direct upgrade route from 11.04 to 12.04, we need to go via 11.10.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>apt-get install update-manager-core
+<span class="nv">$ </span><span class="k">do</span>-release-upgrade
+</code></pre></div>
+
+
+<p>Confirm that you want to perform the upgrade, and once that's finished and the VPS restarted (<code>reboot</code>) Ubuntu will be at 11.10. You can check this:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>lsb_release -a
+...
+Release:        11.10
+</code></pre></div>
+
+
+<p>Perform <code>do-release-upgrade</code> again to arrive at 12.04 LTS.</p>
+
+<p>For a basic setting up of our VPS, the Slicehost article on <a href="http://articles.slicehost.com/2010/4/30/ubuntu-lucid-setup-part-1">setting up Ubuntu</a> is great. In particular, make sure to set up the <code>wheel</code> admin group and get <code>iptables</code> set up. We'll add a user to the <code>wheel</code> group later.</p>
+
+<p>Once that's done, we have a non-<code>root</code> user with which to log in to the VPS. Log in as that user from your local machine.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>ssh user@12.345.23.91
+
+Welcome to Ubuntu 12.04 LTS <span class="o">(</span>GNU/Linux 2.6.38-8-generic x86_64<span class="o">)</span>
+<span class="nv">$ </span>...
+</code></pre></div>
+
+
+<p>Create a user to deploy with and add her to the <code>wheel</code> group.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo useradd -G wheel deploy
+</code></pre></div>
+
+
+<p>Where <code>deploy</code> is the username of our new user. Finally, we'll install a few dependencies for later.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get -y install curl git-core python-software-properties build-essential zlib1g-dev libssl-dev libreadline-gplv2-dev libcurl4-openssl-dev 
+</code></pre></div>
+
+
+<h1>Installing the Components</h1>
+
+<p>We have four main components to install: Ruby, PostgreSQL, Passenger, and nginx. We'll install them in that order, as Passenger comes with a handy command that installs nginx from source for us.</p>
+
+<p>To install Ruby we'll install <a href="https://github.com/sstephenson/rbenv">rbenv</a>, which allows us to manage multiple rubies on the same machine. As <code>deploy</code> will be deploying the apps, we need her to have access to the rubies. Assume access as <code>deploy</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>su - deploy
+Password:
+</code></pre></div>
+
+
+<p>And install rbenv using the handy <a href="https://raw.github.com/fesplugas/rbenv-installer/">rbenv installer</a>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>curl https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+</code></pre></div>
+
+
+<p>Add the snippet the installer gives you to your <code>.bashrc</code> and source the file in the shell.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>nano .bashrc <span class="c"># or any other editor</span>
+...
+<span class="nv">$ </span>. .bashrc
+</code></pre></div>
+
+
+<p>To make sure we've got all the dependencies required for installing Ruby from source, run <code>rbenv bootstrap-ubuntu-12-04</code>. We'll install the latest version which is, at the time of writing, 1.9.3 patch 194.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>rbenv install 1.9.3-p194
+...
+<span class="nv">$ </span>rbenv global 1.9.3-p194
+</code></pre></div>
+
+
+<p>The last command makes <code>1.9.3-p194</code> the global, default version of Ruby. You can check the Ruby version with <code>ruby -v</code>.</p>
+
+<p>Now we have Ruby, we can install Passenger as a gem and then <a href="https://github.com/sstephenson/rbenv#section_3.6">refresh rbenv</a>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gem install passenger
+<span class="nv">$ </span>rbenv rehash
+</code></pre></div>
+
+
+<p>Next, we install nginx.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo passenger-install-nginx-module
+</code></pre></div>
+
+
+<p>The installer will figure out if all the dependencies are preset. If they're not, it'll give you a snippet with which to install them. Choose option 1 to let Passenger download, configure, and compile nginx. The default installation directory <code>/opt/nginx</code> is fine, but some people prefer the more familiar Apache-like directory <code>/etc/nginx</code>.</p>
+
+<p>Once that's installed, we'll get a script for nginx that allows us to use the <code>service</code> command, so we can do stuff like <code>sudo service nginx restart</code>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo curl https://raw.github.com/JasonGiedymin/nginx-init-ubuntu/master/nginx | cat &gt;&gt; /etc/init.d/nginx
+<span class="nv">$ </span>sudo chmod +x /etc/init.d/nginx
+<span class="nv">$ </span>sudo /usr/sbin/update-rc.d -f nginx defaults
+</code></pre></div>
+
+
+<p>We'll also replace the default nginx configuration with a leaner one. Download the <a href="https://github.com/alexpearce/templates/blob/master/nginx.conf">simple config file</a> and replace the current one (backing up first, of course).</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>curl https://raw.github.com/alexpearce/templates/master/nginx.conf | cat &gt;&gt; nginx.conf
+<span class="nv">$ </span>sudo mv /opt/nginx/conf/nginx.conf /opt/nginx/conf/nginx.conf.old <span class="c"># back up</span>
+<span class="nv">$ </span>sudo mv ./nginx.conf /opt/nginx/conf
+</code></pre></div>
+
+
+<p>Notice that this new configuration file <code>include</code>s files from <code>/opt/nginx/sites-available</code>. This is similar to how many people set up <a href="http://www.debianhelp.co.uk/virtualhosts.htm">Apache with virtual hosts</a>. For each site we want (generally represented as a (sub)domain or set of (sub)domains) we create a file inside <code>sites-enabled</code>.</p>
+
+<p>If you installed nginx to a different directory, such as <code>/etc/nginx</code>, modify the <code>nginx</code> init.d and <code>nginx.conf</code> file to point to the right places. Check everything's working by restarting nginx.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service nginx restart
+* Stopping Nginx Server...
+  ...done.
+* Starting Nginx Server...
+  ...done.
+</code></pre></div>
+
+
+<p>We can double-check nginx is working by visiting our VPS IP.</p>
+
+<p><img src="/assets/img/setting-up-a-vps/nginx-success.png" alt="A successful nginx installation." /></p>
+
+<p>Great! Now we have all we need to run Ruby apps. With something like Rails we need one one more thing though: a database. The version of PostgreSQL in the Ubuntu repository is a little outdated, so we'll install it from an up-to-date <a href="http://www.makeuseof.com/tag/ubuntu-ppa-technology-explained/">PPA</a>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo add-apt-repository ppa:pitti/postgresql
+<span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo install postgresql libpq-dev
+</code></pre></div>
+
+
+<p><code>libpq-dev</code> is a dependency of the <code>pg</code> gem, which Rails will need to talk to the database. Now that PostgreSQL is installed, we'll change the root password and set up a test user.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>pqsql
+
+<span class="nv">postgres</span><span class="o">=</span><span class="c"># \password</span>
+Enter new password:
+...
+<span class="nv">postgres</span><span class="o">=</span><span class="c"># create user test with password &#39;secret&#39;;</span>
+<span class="nv">postgres</span><span class="o">=</span><span class="c"># create database test_production owner test;</span>
+<span class="nv">postgres</span><span class="o">=</span><span class="c"># \q</span>
+
+<span class="err">$</span>
+</code></pre></div>
+
+
+<p>Good, that's everything for now. Let's try getting a Rails app up and running!</p>
+
+<h2>Testing</h2>
+
+<p>We'll get a fresh Rails app going <em>as the deploying user</em>, so make sure you're logged in as <code>deploy</code>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>su - deploy
+</code></pre></div>
+
+
+<p>We want each app to have its own set of gems. Using Bundler, we can do this easily <a href="http://stackoverflow.com/questions/9771172/rbenv-surviving-without-gemsets/9791080#9791080">with a Gemfile</a>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir testapp
+<span class="nv">$ </span><span class="nb">cd </span>testapp
+<span class="nv">$ </span><span class="nb">echo</span> -e <span class="s1">&#39;source :rubygems\n\ngem &quot;rails&quot;&#39;</span> &gt;&gt; Gemfile
+</code></pre></div>
+
+
+<p>We now have a Gemfile which Bundler can work with. We now install the <code>bundler</code> gem, install the stuff in our Gemfile to <code>vendor/bundle</code> (which will act as our app-specific gemset) and create the Rails test app.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gem install bundler
+<span class="nv">$ </span>rbenv rehash
+<span class="nv">$ </span>bundle install --path vendor/bundle
+<span class="nv">$ </span>bundle <span class="nb">exec </span>rails new . -d postgresql 
+</code></pre></div>
+
+
+<p>Choose <code>Y</code> to overwrite our Gemfile with the Rails template. Now, install the rest of the Rails dependencies.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bundle install
+...
+Your bundle is <span class="nb">complete</span>! It was installed into ./vendor/bundle
+</code></pre></div>
+
+
+<p>To make sure Rails can talk to the database, edit <code>database.yml</code> with the test PostgreSQL user and database details.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>nano config/database.yml
+...
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: test_production
+  pool: 5
+  host: localhost
+  username: <span class="nb">test</span>
+<span class="nb">  </span>password: secret
+...
+</code></pre></div>
+
+
+<p>The <code>host: localhost</code> is particularly important (and not in the default Rails <code>database.yml</code>); my app wouldn't work without it.</p>
+
+<p>Now we just need to tell nginx where our Rails app is. As I mentioned earlier, we've set up nginx so that each site has its own config file inside <code>nginx/sites-enabled</code>. I've uploaded a <a href="https://github.com/alexpearce/templates/blob/master/nginx.app.conf">test app config file</a> on GitHub. We just download this to this nginx directory and <strong>edit it</strong> so that it points to the right place.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>curl https://raw.github.com/alexpearce/templates/master/nginx.server.conf | cat &gt;&gt; testapp
+<span class="nv">$ </span>nano testapp
+... <span class="c"># edit the config file so that it points to our app</span>
+<span class="nv">$ </span>sudo mv testapp /opt/nginx/sites-enabled/
+<span class="nv">$ </span>sudo service nginx restart
+</code></pre></div>
+
+
+<p>Visiting the VPS IP, it works!</p>
+
+<p><img src="/assets/img/setting-up-a-vps/rails-success.png" alt="A successful Rails installation." /></p>
+
+<p>Excellent. We've set up a VPS from scratch to serve Ruby applications, installing rbenv, Passenger, nginx, and PostgreSQL. If you'd like to test the Rails app a little further, delete <code>index.html</code> in the <code>public</code> directory and scaffold some models. Create, update, and delete a few records to make sure the database is OK.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c"># Inside the ~deploy/testapp directory</span>
+<span class="nv">$ </span>rm public/index.html
+<span class="nv">$ </span>rails g scaffold post title body:text
+<span class="nv">$ </span>touch tmp/restart.txt <span class="c"># this tells passenger to restart the app</span>
+</code></pre></div>
+
+
+<p>That's all for now, next we'll go over deploying from a local machine to the VPS with <a href="https://github.com/capistrano/capistrano">Capistrano</a>.</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=sysadmin">sysadmin</a></li>
+    
+    <li><a href="/search.html?tags=Ruby">ruby</a></li>
+    
+    <li><a href="/search.html?tags=nginx">nginx</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "Setting Up an Ubuntu VPS With rbenv, Nginx and Passenger",
+      disqus_identifier = "/2012/06/setting-up-a-vps",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/assets/js/alexpearce.js"></script>
+</body>
+</html>

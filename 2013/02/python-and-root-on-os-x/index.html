@@ -1,0 +1,143 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>python and root on os x - nabsan</title>
+  <meta name="description" content="Fixing an ImportError from libPyROOT on OS X">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2013/02/python-and-root-on-os-x">Python and ROOT on OS X</a></h1>
+    <h2>Monday 25, February 2013 in <b><a href="/search.html?category=tips">Tips</a></b></h2>
+    <h3 class="comment-count"><a href="/2013/02/python-and-root-on-os-x/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <p>I don't find myself using <a href="http://root.cern.ch/drupal/">ROOT</a> much on my home machine, but when I do there's usually something broken.</p>
+
+<p>In this case, it was when trying to use <a href="http://root.cern.ch/drupal/content/pyroot">PyROOT</a>, a ROOT interface for Python, that this error made my day:</p>
+
+<div class="highlight"><pre><code class="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">ROOT</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s">&quot;/usr/local/root/lib/ROOT.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">85</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="kn">import</span> <span class="nn">libPyROOT</span> <span class="kn">as</span> <span class="nn">_root</span>
+<span class="ne">ImportError</span><span class="p">:</span> <span class="n">dlopen</span><span class="p">(</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libPyROOT</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="n">Library</span> <span class="ow">not</span> <span class="n">loaded</span><span class="p">:</span> <span class="nd">@rpath</span><span class="o">/</span><span class="n">libRIO</span><span class="o">.</span><span class="n">so</span>
+  <span class="n">Referenced</span> <span class="n">from</span><span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libPyROOT</span><span class="o">.</span><span class="n">so</span>
+  <span class="n">Reason</span><span class="p">:</span> <span class="n">image</span> <span class="ow">not</span> <span class="n">found</span>
+</code></pre></div>
+
+
+<p>This is using the install as documented in <a href="#">a previous post</a>.</p>
+
+<p>The problem is that the library Python loads can't find another library it needs. To fix this, the <code>DYLD_LIBRARY_PATH</code> variable needs to be set:</p>
+
+<div class="highlight"><pre><code class="text">export DYLD_LIBRARY_PATH=$ROOTSYS/lib:$DYLD_LIBRARY_PATH
+</code></pre></div>
+
+
+<p>This can be executed directly in the shell or placed in a <code>.bashrc</code>-type file.</p>
+
+<h2>Caveat</h2>
+
+<p>This solution is not without fault. Namely, whenever one runs a command with <code>sudo</code>, the following warning appears:</p>
+
+<div class="highlight"><pre><code class="text">dyld: DYLD_ environment variables being ignored because main executable (/usr/bin/sudo) is setuid or setgid
+</code></pre></div>
+
+
+<p>This is a <a href="https://discussions.apple.com/thread/4143805?start=0&amp;tstart=0">well</a> <a href="http://stackoverflow.com/questions/12064725/dyld-dyld-environment-variables-being-ignored-because-main-executable-usr-bi">known</a> issue with OS X 10.8 (Mountain Lion), complete with a <a href="http://openradar.appspot.com/11894054">bug report</a>.</p>
+
+<p>At least <a href="http://apple.stackexchange.com/a/76213">one workaround</a> is available, but for now I put up with the message in the shell I want to use PyROOT in, manually setting <code>DYLD_LIBRARY_PATH</code> when needed.</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=ROOT">root</a></li>
+    
+    <li><a href="/search.html?tags=Python">python</a></li>
+    
+    <li><a href="/search.html?tags=OSX">osx</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "Python and ROOT on OS X",
+      disqus_identifier = "/2013/02/python-and-root-on-os-x",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/assets/js/alexpearce.js"></script>
+</body>
+</html>
