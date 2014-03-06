@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   
-  <title>hello - nabsan</title>
-  <meta name="description" content="An introduction to a blog.">
+  <title>markdown basic - nabsan</title>
+  <meta name="description" content="How to write a Jekyll site.">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
@@ -49,33 +49,129 @@
     <div class="blog">
       <article class="post">
   <hgroup class="cf">
-    <h1><a href="/2014/03/hello2">Hello</a></h1>
-    <h2>Tuesday 04, March 2014 in <b><a href="/search.html?category=general">General</a></b></h2>
-    <h3 class="comment-count"><a href="/2014/03/hello2/#disqus_thread"></a></h3>
+    <h1><a href="/2014/03/markdown-basic">Markdown Basic</a></h1>
+    <h2>Thursday 06, March 2014 in <b><a href="/search.html?category=tips">Tips</a></b></h2>
+    <h3 class="comment-count"><a href="/2014/03/markdown-basic/#disqus_thread"></a></h3>
   </hgroup>
 
   <div class="body">
     
-    <p>This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.</p>
+    <hr />
 
-<p>The blog is built with <a href="https://github.com/mojombo/jekyll">Jekyll</a>, a static site generator. You can check out the <a href="https://github.com/alexpearce/alexpearce.github.com">source on GitHub</a>, along with a few other projects I have.</p>
+<h1>markdown考察</h1>
 
-<p>There are many wonderful resources I used to build this site, most of which I use on a regular basis.</p>
+<hr />
+
+<h2>強調表現</h2>
+
+<p><em>斜体</em>
+<strong>太字</strong>
+<strong><em>太字かつ斜体</em></strong></p>
+
+<h2>見出し表現</h2>
+
+<h1>大見出し</h1>
+
+<h2>中見出し</h2>
+
+<h3>小見出し</h3>
+
+<h2>リスト(通常）</h2>
 
 <ul>
-<li><a href="http://h5bp.com">HTML5 Boilerplate</a> for solid HTML and CSS templates.</li>
-<li><a href="http://www.google.com/webfonts">Google Web Fonts</a> for the fonts I use here, particularly <a href="http://www.google.com/webfonts/specimen/Pacifico">Pacifico</a> for the fancy logo and <a href="http://www.google.com/webfonts/specimen/Asap">Asap</a> for headers. The body type is Palatino Linotype.</li>
-<li><a href="http://stackoverflow.com">Stack Overflow</a> for answering all my programming questions. I'm a <a href="http://stackoverflow.com/users/596068/alex">semi-active user there</a>.</li>
-<li><a href="http://premiumpixels.com">Premium Pixels</a> provide amazing quality PSDs for web design. Although I didn't use any for this site, it's worth the mention.</li>
+<li>弾丸リスト1行</li>
+<li>弾丸リスト2行</li>
+<li>数字リスト1行</li>
+<li>数字リスト2行</li>
 </ul>
 
 
-<p>If you have any questions or suggestion, please feel free to ask.</p>
+<h2>リスト(インデックス付き:ネスト表現)</h2>
+
+<ul>
+<li>トップレベル弾丸1行目
+
+<ul>
+<li>サブレベル弾丸1行目</li>
+<li>サブレベル弾丸2行目</li>
+<li>(数字リストも同様に利用可能です)</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>引用</h2>
+
+<p>1行目につければその次行も引用となります
+複数行あっても
+引用とみなされます。</p>
+
+<p>引用記号はそれぞれの行頭につけても
+引用とみなされます。</p>
+
+<h2>リンク(aタグ)</h2>
+
+<p>文章の中の<a href="http://hogehoge.com/" title="Alt:別名ツールチップ文字列">サンプルリンク</a> です。
+直接URLを表示したければ <a href="http://hogehoge.com/">http://hogehoge.com/</a>とするとよい。</p>
+
+<h2>画像表示(imgタグ)</h2>
+
+<p><img src="http://hoge.com/myimage.png" title="alt:別名ツールチップ文字列" alt="画像リンク切れの時に表示する文字列" /></p>
+
+<h2>水平線(↓は全部HRとなる。)</h2>
+
+<hr />
+
+<hr />
+
+<hr />
+
+<hr />
+
+<hr />
+
+<h2>コードを張り付ける場合</h2>
+
+<p>(空行)
+<code>python:index.py
+  print 'hello py world.'
+</code>
+(空行)</p>
+
+<p>また、<code>print 'hello py world'</code>という1行表記もOK。</p>
+
+<h2>テーブル</h2>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left">Left align </th>
+<th align="right"> Right Align </th>
+<th align="center"> Center align</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+
+<h2>TeX記法による数式</h2>
+
+<p><code>math
+TEXをここに
+</code></p>
+
+<h2>markdown無効化</h2>
+
+<p>「￥」バックスラッシュで無効化できます</p>
 
     
   </div>
 
   <ul class="tags cf">
+    
+    <li><a href="/search.html?tags=Jekyll">jekyll</a></li>
     
   </ul>
 </article>
@@ -87,8 +183,8 @@
 
 <script>
   var disqus_shortname = "nabsan",
-      disqus_title = "Hello",
-      disqus_identifier = "/2014/03/hello2",
+      disqus_title = "Markdown Basic",
+      disqus_identifier = "/2014/03/markdown-basic",
       disqus_developer = 0;
   
   (function(d) {
@@ -97,7 +193,7 @@
     dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
     
     // If comments aren't disabled for the article, load the embed script
-    if ("false" !== "false") {
+    if ("" !== "false") {
       d.getElementsByTagName("head")[0].appendChild(dsq);
     } else {
       d.getElementById("disqus_thread").innerHTML = "";

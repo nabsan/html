@@ -4,7 +4,7 @@
   <subtitle>Blog of developer nabsan.</subtitle>
   <link href="http://nabsan.github.io/" />
   <link type="application/atom+xml" rel="self" href="http://nabsan.github.io/atom.xml" />
-  <updated>2014-03-06T20:44:26+09:00</updated>
+  <updated>2014-03-06T23:10:59+09:00</updated>
   <id>http://nabsan.github.io/</id>
   <author>
     <name>Nabsan</name>
@@ -13,31 +13,124 @@
   
   
   <entry>
-    <id>http://nabsan.github.io/2014/03/hello2</id>
-    <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/hello2" />
-    <title>Hello2</title>
-    <updated>2014-03-04T00:00:00+09:00</updated>
+    <id>http://nabsan.github.io/2014/03/markdown-basic</id>
+    <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/markdown-basic" />
+    <title>Markdown Basic</title>
+    <updated>2014-03-06T00:00:00+09:00</updated>
     <author>
       <name>Nabsan</name>
       <email>nabsan@ikarosu.net</email>
     </author>
-    <content type="html">&lt;p&gt;This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.&lt;/p&gt;
+    <content type="html">&lt;hr /&gt;
 
-&lt;p&gt;The blog is built with &lt;a href='https://github.com/mojombo/jekyll'&gt;Jekyll&lt;/a&gt;, a static site generator. You can check out the &lt;a href='https://github.com/alexpearce/alexpearce.github.com'&gt;source on GitHub&lt;/a&gt;, along with a few other projects I have.&lt;/p&gt;
+&lt;h1&gt;markdown考察&lt;/h1&gt;
 
-&lt;p&gt;There are many wonderful resources I used to build this site, most of which I use on a regular basis.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h2&gt;強調表現&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;斜体&lt;/em&gt;
+&lt;strong&gt;太字&lt;/strong&gt;
+&lt;strong&gt;&lt;em&gt;太字かつ斜体&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2&gt;見出し表現&lt;/h2&gt;
+
+&lt;h1&gt;大見出し&lt;/h1&gt;
+
+&lt;h2&gt;中見出し&lt;/h2&gt;
+
+&lt;h3&gt;小見出し&lt;/h3&gt;
+
+&lt;h2&gt;リスト(通常）&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href='http://h5bp.com'&gt;HTML5 Boilerplate&lt;/a&gt; for solid HTML and CSS templates.&lt;/li&gt;
-
-&lt;li&gt;&lt;a href='http://www.google.com/webfonts'&gt;Google Web Fonts&lt;/a&gt; for the fonts I use here, particularly &lt;a href='http://www.google.com/webfonts/specimen/Pacifico'&gt;Pacifico&lt;/a&gt; for the fancy logo and &lt;a href='http://www.google.com/webfonts/specimen/Asap'&gt;Asap&lt;/a&gt; for headers. The body type is Palatino Linotype.&lt;/li&gt;
-
-&lt;li&gt;&lt;a href='http://stackoverflow.com'&gt;Stack Overflow&lt;/a&gt; for answering all my programming questions. I&amp;#8217;m a &lt;a href='http://stackoverflow.com/users/596068/alex'&gt;semi-active user there&lt;/a&gt;.&lt;/li&gt;
-
-&lt;li&gt;&lt;a href='http://premiumpixels.com'&gt;Premium Pixels&lt;/a&gt; provide amazing quality PSDs for web design. Although I didn&amp;#8217;t use any for this site, it&amp;#8217;s worth the mention.&lt;/li&gt;
+&lt;li&gt;弾丸リスト1行&lt;/li&gt;
+&lt;li&gt;弾丸リスト2行&lt;/li&gt;
+&lt;li&gt;数字リスト1行&lt;/li&gt;
+&lt;li&gt;数字リスト2行&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;If you have any questions or suggestion, please feel free to ask.&lt;/p&gt;</content>
+
+&lt;h2&gt;リスト(インデックス付き:ネスト表現)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;トップレベル弾丸1行目
+
+&lt;ul&gt;
+&lt;li&gt;サブレベル弾丸1行目&lt;/li&gt;
+&lt;li&gt;サブレベル弾丸2行目&lt;/li&gt;
+&lt;li&gt;(数字リストも同様に利用可能です)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;h2&gt;引用&lt;/h2&gt;
+
+&lt;p&gt;1行目につければその次行も引用となります
+複数行あっても
+引用とみなされます。&lt;/p&gt;
+
+&lt;p&gt;引用記号はそれぞれの行頭につけても
+引用とみなされます。&lt;/p&gt;
+
+&lt;h2&gt;リンク(aタグ)&lt;/h2&gt;
+
+&lt;p&gt;文章の中の&lt;a href=&quot;http://hogehoge.com/&quot; title=&quot;Alt:別名ツールチップ文字列&quot;&gt;サンプルリンク&lt;/a&gt; です。
+直接URLを表示したければ &lt;a href=&quot;http://hogehoge.com/&quot;&gt;http://hogehoge.com/&lt;/a&gt;とするとよい。&lt;/p&gt;
+
+&lt;h2&gt;画像表示(imgタグ)&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://hoge.com/myimage.png&quot; title=&quot;alt:別名ツールチップ文字列&quot; alt=&quot;画像リンク切れの時に表示する文字列&quot; /&gt;&lt;/p&gt;
+
+&lt;h2&gt;水平線(↓は全部HRとなる。)&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;h2&gt;コードを張り付ける場合&lt;/h2&gt;
+
+&lt;p&gt;(空行)
+&lt;code&gt;python:index.py
+  print 'hello py world.'
+&lt;/code&gt;
+(空行)&lt;/p&gt;
+
+&lt;p&gt;また、&lt;code&gt;print 'hello py world'&lt;/code&gt;という1行表記もOK。&lt;/p&gt;
+
+&lt;h2&gt;テーブル&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th align=&quot;left&quot;&gt;Left align &lt;/th&gt;
+&lt;th align=&quot;right&quot;&gt; Right Align &lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt; Center align&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;h2&gt;TeX記法による数式&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;math
+TEXをここに
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2&gt;markdown無効化&lt;/h2&gt;
+
+&lt;p&gt;「￥」バックスラッシュで無効化できます&lt;/p&gt;
+</content>
   </entry>
   
   <entry>
@@ -65,6 +158,34 @@
 
 &lt;p&gt;If you have any questions or suggestion, please feel free to ask.&lt;/p&gt;
 </content>
+  </entry>
+  
+  <entry>
+    <id>http://nabsan.github.io/2014/03/hello2</id>
+    <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/hello2" />
+    <title>Hello2</title>
+    <updated>2014-03-04T00:00:00+09:00</updated>
+    <author>
+      <name>Nabsan</name>
+      <email>nabsan@ikarosu.net</email>
+    </author>
+    <content type="html">&lt;p&gt;This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.&lt;/p&gt;
+
+&lt;p&gt;The blog is built with &lt;a href='https://github.com/mojombo/jekyll'&gt;Jekyll&lt;/a&gt;, a static site generator. You can check out the &lt;a href='https://github.com/alexpearce/alexpearce.github.com'&gt;source on GitHub&lt;/a&gt;, along with a few other projects I have.&lt;/p&gt;
+
+&lt;p&gt;There are many wonderful resources I used to build this site, most of which I use on a regular basis.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href='http://h5bp.com'&gt;HTML5 Boilerplate&lt;/a&gt; for solid HTML and CSS templates.&lt;/li&gt;
+
+&lt;li&gt;&lt;a href='http://www.google.com/webfonts'&gt;Google Web Fonts&lt;/a&gt; for the fonts I use here, particularly &lt;a href='http://www.google.com/webfonts/specimen/Pacifico'&gt;Pacifico&lt;/a&gt; for the fancy logo and &lt;a href='http://www.google.com/webfonts/specimen/Asap'&gt;Asap&lt;/a&gt; for headers. The body type is Palatino Linotype.&lt;/li&gt;
+
+&lt;li&gt;&lt;a href='http://stackoverflow.com'&gt;Stack Overflow&lt;/a&gt; for answering all my programming questions. I&amp;#8217;m a &lt;a href='http://stackoverflow.com/users/596068/alex'&gt;semi-active user there&lt;/a&gt;.&lt;/li&gt;
+
+&lt;li&gt;&lt;a href='http://premiumpixels.com'&gt;Premium Pixels&lt;/a&gt; provide amazing quality PSDs for web design. Although I didn&amp;#8217;t use any for this site, it&amp;#8217;s worth the mention.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you have any questions or suggestion, please feel free to ask.&lt;/p&gt;</content>
   </entry>
   
   <entry>
