@@ -94,7 +94,7 @@ var layoutResultsPage = function(property, value, posts) {
     $container.find('ul.results').append(
       '<li>'
         // Page anchor
-        + '<a href="/html/' + post.href + '">'
+        + '<a href="/html' + post.href + '">'
         + posts[i].title
         + '</a>'
         // Post date
