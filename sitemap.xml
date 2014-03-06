@@ -72,6 +72,8 @@
   
   <url><loc>http://nabsan.github.io/search.html?tags=develop javascript</loc></url>
   
+  <url><loc>http://nabsan.github.io/search.html?tags=test</loc></url>
+  
   
   <!-- Category Indexes -->
   <url><loc>http://nabsan.github.io/search.html?category=general</loc></url>

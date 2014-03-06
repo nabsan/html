@@ -4,7 +4,7 @@
   <subtitle>Blog of developer nabsan.</subtitle>
   <link href="http://nabsan.github.io/" />
   <link type="application/atom+xml" rel="self" href="http://nabsan.github.io/atom.xml" />
-  <updated>2014-03-06T23:10:59+09:00</updated>
+  <updated>2014-03-06T23:53:57+09:00</updated>
   <id>http://nabsan.github.io/</id>
   <author>
     <name>Nabsan</name>
@@ -136,13 +136,14 @@ TEXをここに
   <entry>
     <id>http://nabsan.github.io/2014/03/hello2</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/hello2" />
-    <title>Hello</title>
+    <title>Hello22222222</title>
     <updated>2014-03-04T00:00:00+09:00</updated>
     <author>
       <name>Nabsan</name>
       <email>nabsan@ikarosu.net</email>
     </author>
-    <content type="html">&lt;p&gt;This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.&lt;/p&gt;
+    <content type="html">&lt;p&gt;222222222222
+This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.&lt;/p&gt;
 
 &lt;p&gt;The blog is built with &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;, a static site generator. You can check out the &lt;a href=&quot;https://github.com/alexpearce/alexpearce.github.com&quot;&gt;source on GitHub&lt;/a&gt;, along with a few other projects I have.&lt;/p&gt;
 
@@ -169,7 +170,7 @@ TEXをここに
       <name>Nabsan</name>
       <email>nabsan@ikarosu.net</email>
     </author>
-    <content type="html">&lt;p&gt;This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.&lt;/p&gt;
+    <content type="html">&lt;p&gt;222222222222 This my new blog. I plan to post solutions to problems I find my self in when I coding as a reference for myself, and for others.&lt;/p&gt;
 
 &lt;p&gt;The blog is built with &lt;a href='https://github.com/mojombo/jekyll'&gt;Jekyll&lt;/a&gt;, a static site generator. You can check out the &lt;a href='https://github.com/alexpearce/alexpearce.github.com'&gt;source on GitHub&lt;/a&gt;, along with a few other projects I have.&lt;/p&gt;
 

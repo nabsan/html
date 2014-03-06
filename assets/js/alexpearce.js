@@ -87,14 +87,14 @@ var layoutResultsPage = function(property, value, posts) {
         tags     = post.tags;
         
     for (var j in tags) {
-      tagsList += '<li><a href="/search.html?tags=' + tags[j] + '">' + tags[j].toLowerCase() + '</a></li>';
+      tagsList += '<li><a href="/html/search.html?tags=' + tags[j] + '">' + tags[j].toLowerCase() + '</a></li>';
     }
     tagsList += '</ul>';
     
     $container.find('ul.results').append(
       '<li>'
         // Page anchor
-        + '<a href="' + post.href + '">'
+        + '<a href="/html/' + post.href + '">'
         + posts[i].title
         + '</a>'
         // Post date
