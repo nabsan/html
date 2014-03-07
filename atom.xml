@@ -4,7 +4,7 @@
   <subtitle>Blog of developer nabsan.</subtitle>
   <link href="http://nabsan.github.io/" />
   <link type="application/atom+xml" rel="self" href="http://nabsan.github.io/atom.xml" />
-  <updated>2014-03-07T00:00:47+09:00</updated>
+  <updated>2014-03-07T22:14:06+09:00</updated>
   <id>http://nabsan.github.io/</id>
   <author>
     <name>Nabsan</name>
@@ -13,7 +13,7 @@
   
   
   <entry>
-    <id>http://nabsan.github.io/2014/03/markdown-basic</id>
+    <id>http://nabsan.github.io/html/2014/03/markdown-basic</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/markdown-basic" />
     <title>Markdown Basic</title>
     <updated>2014-03-06T00:00:00+09:00</updated>
@@ -134,7 +134,7 @@ TEXをここに
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2014/03/hello2</id>
+    <id>http://nabsan.github.io/html/2014/03/hello2</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/hello2" />
     <title>Hello22222222</title>
     <updated>2014-03-04T00:00:00+09:00</updated>
@@ -162,7 +162,7 @@ This my new blog. I plan to post solutions to problems I find my self in when I 
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2014/03/hello2</id>
+    <id>http://nabsan.github.io/html/2014/03/hello2</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/hello2" />
     <title>Hello2</title>
     <updated>2014-03-04T00:00:00+09:00</updated>
@@ -190,7 +190,7 @@ This my new blog. I plan to post solutions to problems I find my self in when I 
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2013/05/hwave_ecoral.js</id>
+    <id>http://nabsan.github.io/html/2013/05/hwave_ecoral.js</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2013/05/hwave_ecoral.js" />
     <title>ecoral.js ver 1.0..</title>
     <updated>2013-05-14T00:00:00+09:00</updated>
@@ -211,7 +211,7 @@ This my new blog. I plan to post solutions to problems I find my self in when I 
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2013/02/python-and-root-on-os-x</id>
+    <id>http://nabsan.github.io/html/2013/02/python-and-root-on-os-x</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2013/02/python-and-root-on-os-x" />
     <title>Python and ROOT on OS X</title>
     <updated>2013-02-25T00:00:00+09:00</updated>
@@ -259,7 +259,7 @@ This my new blog. I plan to post solutions to problems I find my self in when I 
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/11/fixing-a-tmva-error</id>
+    <id>http://nabsan.github.io/html/2012/11/fixing-a-tmva-error</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/11/fixing-a-tmva-error" />
     <title>Fixing a TMVA Error</title>
     <updated>2012-11-02T00:00:00+09:00</updated>
@@ -292,7 +292,7 @@ This my new blog. I plan to post solutions to problems I find my self in when I 
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/10/merging-root-ntuples</id>
+    <id>http://nabsan.github.io/html/2012/10/merging-root-ntuples</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/10/merging-root-ntuples" />
     <title>Merging ROOT Ntuples</title>
     <updated>2012-10-28T00:00:00+09:00</updated>
@@ -368,7 +368,7 @@ hadd Target path: ntuple.root:/GetIntegratedLuminosity
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/10/jaxodraw-on-os-x</id>
+    <id>http://nabsan.github.io/html/2012/10/jaxodraw-on-os-x</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/10/jaxodraw-on-os-x" />
     <title>JaxoDraw on OS X with MacTex</title>
     <updated>2012-10-27T00:00:00+09:00</updated>
@@ -505,7 +505,7 @@ Please try 'Export LaTeX' and run latex manually.&lt;/p&gt;&lt;/blockquote&gt;
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/08/installing-root-on-mountain-lion</id>
+    <id>http://nabsan.github.io/html/2012/08/installing-root-on-mountain-lion</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/08/installing-root-on-mountain-lion" />
     <title>Installing ROOT on OS X 10.8 with CMake and Homebrew</title>
     <updated>2012-08-03T00:00:00+09:00</updated>
@@ -658,7 +658,7 @@ root &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;0&lt;span class=&quot;o&quot;
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/07/deploying-to-a-vps-with-capistrano</id>
+    <id>http://nabsan.github.io/html/2012/07/deploying-to-a-vps-with-capistrano</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/07/deploying-to-a-vps-with-capistrano" />
     <title>Deploying to a VPS With Capistrano</title>
     <updated>2012-07-11T00:00:00+09:00</updated>
@@ -888,7 +888,7 @@ y
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/06/jekyll-sitemaps</id>
+    <id>http://nabsan.github.io/html/2012/06/jekyll-sitemaps</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/06/jekyll-sitemaps" />
     <title>Jekyll Sitemaps</title>
     <updated>2012-06-21T00:00:00+09:00</updated>
@@ -923,7 +923,7 @@ y
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/06/setting-up-a-vps</id>
+    <id>http://nabsan.github.io/html/2012/06/setting-up-a-vps</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/06/setting-up-a-vps" />
     <title>Setting Up an Ubuntu VPS With rbenv, Nginx and Passenger</title>
     <updated>2012-06-19T00:00:00+09:00</updated>
@@ -1182,7 +1182,7 @@ production:
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/05/quarkonium-spectrum</id>
+    <id>http://nabsan.github.io/html/2012/05/quarkonium-spectrum</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/05/quarkonium-spectrum" />
     <title>The Spectrum of Quarkonium</title>
     <updated>2012-05-18T00:00:00+09:00</updated>
@@ -1210,7 +1210,7 @@ production:
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/04/scattering-cross-sections</id>
+    <id>http://nabsan.github.io/html/2012/04/scattering-cross-sections</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/04/scattering-cross-sections" />
     <title>Scattering Cross Sections in the Standard Model</title>
     <updated>2012-04-28T00:00:00+09:00</updated>
@@ -1246,7 +1246,7 @@ production:
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/04/escaping-liquid-tags-in-jekyll</id>
+    <id>http://nabsan.github.io/html/2012/04/escaping-liquid-tags-in-jekyll</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/04/escaping-liquid-tags-in-jekyll" />
     <title>Escaping Liquid Tags in Jekyll</title>
     <updated>2012-04-23T00:00:00+09:00</updated>
@@ -1289,7 +1289,7 @@ production:
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/04/simple-jekyll-searching</id>
+    <id>http://nabsan.github.io/html/2012/04/simple-jekyll-searching</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/04/simple-jekyll-searching" />
     <title>Simple Jekyll Searching</title>
     <updated>2012-04-22T00:00:00+09:00</updated>
@@ -1410,7 +1410,7 @@ production:
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/04/hello</id>
+    <id>http://nabsan.github.io/html/2012/04/hello</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/04/hello" />
     <title>Hello</title>
     <updated>2012-04-21T00:00:00+09:00</updated>
@@ -1437,7 +1437,7 @@ production:
   </entry>
   
   <entry>
-    <id>http://nabsan.github.io/2012/04/hello</id>
+    <id>http://nabsan.github.io/html/2012/04/hello</id>
     <link type="text/html" rel="alternate" href="http://nabsan.github.io/2012/04/hello" />
     <title>Hello</title>
     <updated>2012-04-21T00:00:00+09:00</updated>
