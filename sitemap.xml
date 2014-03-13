@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <!-- Posts -->
+  <url><loc>http://nabsan.github.io/html/2014/03/D3.js-Cheat</loc></url>
+  
   <url><loc>http://nabsan.github.io/html/2014/03/markdown-basic</loc></url>
   
   <url><loc>http://nabsan.github.io/html/2014/03/hello2</loc></url>
@@ -73,6 +75,12 @@
   <url><loc>http://nabsan.github.io/html/search.html?tags=develop javascript</loc></url>
   
   <url><loc>http://nabsan.github.io/html/search.html?tags=test</loc></url>
+  
+  <url><loc>http://nabsan.github.io/html/search.html?tags=develop</loc></url>
+  
+  <url><loc>http://nabsan.github.io/html/search.html?tags=javascript</loc></url>
+  
+  <url><loc>http://nabsan.github.io/html/search.html?tags=d3</loc></url>
   
   
   <!-- Category Indexes -->

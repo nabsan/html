@@ -1,6 +1,18 @@
 [
   
     {
+  "title"    : "D3.js Cheat memo",
+  "category" : "develop",
+  "tags"     : ["develop","javascript","D3", null],
+  "href"     : "/2014/03/D3.js-Cheat",
+  "date"     : {
+    "day"   : "13",
+    "month" : "March",
+    "year"  : "2014"
+  }
+},
+  
+    {
   "title"    : "Markdown Basic",
   "category" : "Tips",
   "tags"     : ["Jekyll", null],
