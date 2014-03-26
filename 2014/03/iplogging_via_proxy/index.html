@@ -1,0 +1,162 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>ip logging via proxypass - nabsan</title>
+  <meta name="description" content="Do you know how to log the remote ip address via proxy.">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed">
+  
+  <link href='http://fonts.googleapis.com/css?family=Asap:400,700|Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/html/assets/css/alexpearce.css">
+  
+  <script type="text/javascript" src="/html/assets/js/modernizr.js"></script>
+  
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-644931-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+</head>
+<body>
+  <div class="columns">
+    
+    <header>
+  <h1><a href="/">Nabsan</a></h1>
+  <h2>A Blog</h2>
+  <div class="deets">
+    <p>Researcher on home @ Nagasaki.</p>
+    <p>Freelance developer @ <a href="http://ikarosu.net">ikarosu.net</a>.</p>
+    <p>Physics undergraduate @ <a href="http://soton.ac.uk">University of Tokai</a>.</p>
+    <p><a href="mailto:nabsan@ikarosu.net">Contact me</a> or find me on twitter.</p>
+    <p class="quiet">The source for this site is available on <a href="http://github.com/nabsan/nabsan.github.com">GitHub</a></p>
+  </div>
+</header>
+
+  
+    <div class="blog">
+      <article class="post">
+  <hgroup class="cf">
+    <h1><a href="/2014/03/iplogging_via_proxy">IP Logging via proxyPass</a></h1>
+    <h2>Wednesday 26, March 2014 in <b><a href="/html/search.html?category=tips">Tips</a></b></h2>
+    <h3 class="comment-count"><a href="/2014/03/iplogging_via_proxy/#disqus_thread"></a></h3>
+  </hgroup>
+
+  <div class="body">
+    
+    <h1>質問</h1>
+
+<p> ReverseProxyで ProxyPassされたら 接続元のIPがわからないかな？</p>
+
+<h1>回答</h1>
+
+<p> 下↓の"■参考"の通り
+ proxyPassされたときは、ヘッダに"X-Forwarded-For"が付与されるはずなので、</p>
+
+<p> httpd.confで</p>
+
+<pre><code class="">　　参考＞LogFormat "%h %l %u %t \"%r\" %&gt;s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{X-Forwarded-For}i\"" combined
+</code></pre>
+
+<p>みたいにX-Forwarded-Forを記録するようにすればアクセスログ内に記録されるのでそのログを解析対象とすれば、管理はできるのでは？と思います。</p>
+
+<p> また、その応用としては、</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="na">:80</span><span class="nt">&gt;</span>
+   SetEnvIf X-Forwarded-For &quot;拒否するIP1&quot; deny_ip
+   SetEnvIf X-Forwarded-For &quot;拒否するIP2&quot; deny_ip
+　　　
+   #deny_ipさんを&quot;拒否&quot;する場合
+       <span class="nt">&lt;Location</span> <span class="nt">/&gt;</span>
+           Order allow,deny
+           Allow from all
+           Deny from env=deny_ip
+           ProxyPass ajp://192.168.20.100:8009/sample-app/
+       <span class="nt">&lt;/Location&gt;</span>
+   #deny_ipさんを&quot;許可&quot;する場合
+       <span class="nt">&lt;Location</span> <span class="err">/*/</span><span class="na">test</span><span class="nt">/&gt;</span>
+           Order deny,allow
+           Deny from all
+           Allow from env=deny_ip
+           ProxyPass ajp://192.168.20.100:8009/sample-app/
+        <span class="nt">&lt;/Location&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre></div>
+
+
+<p>みたいにアクセス制限/許可も可能です。</p>
+
+<h1>参考</h1>
+
+<h2>Apacheのマニュアルより転載</h2>
+
+<pre><code class="">　&gt;リバースプロキシとして振る舞う時 (例えば、ProxyPass ディレクティブを使う時) 、
+   mod_proxy_http は、オリジンサーバに情報を渡すために いくつかのリクエストヘッダを追加します。
+　&gt;X-Forwarded-For
+　&gt;  クライアントの IP アドレス。
+　&gt;X-Forwarded-Host
+　&gt;  オリジナルのホスト名。クライアントが Host リクエストヘッダで渡す。
+　&gt;X-Forwarded-Server
+　&gt;  プロキシサーバのホスト名。
+</code></pre>
+
+<p><a href="http://httpd.apache.org/docs/2.2/mod/mod_proxy.html">http://httpd.apache.org/docs/2.2/mod/mod_proxy.html</a>」バックスラッシュで無効化できます</p>
+
+    
+  </div>
+
+  <ul class="tags cf">
+    
+    <li><a href="/html/search.html?tags=log">log</a></li>
+    
+    <li><a href="/html/search.html?tags=middleware">middleware</a></li>
+    
+  </ul>
+</article>
+
+      
+      <div id="disqus_thread">
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<script>
+  var disqus_shortname = "nabsan",
+      disqus_title = "IP Logging via proxyPass",
+      disqus_identifier = "/2014/03/iplogging_via_proxy",
+      disqus_developer = 0;
+  
+  (function(d) {
+    var dsq = d.createElement("script");
+    dsq.async = true;
+    dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+    
+    // If comments aren't disabled for the article, load the embed script
+    if ("" !== "false") {
+      d.getElementsByTagName("head")[0].appendChild(dsq);
+    } else {
+      d.getElementById("disqus_thread").innerHTML = "";
+    }
+  })(document);
+</script>
+
+    </div>
+    
+  </div>
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/html/assets/js/alexpearce.js"></script>
+</body>
+</html>

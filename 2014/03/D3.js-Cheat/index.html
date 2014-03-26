@@ -65,16 +65,14 @@ DOMを操作するので、その様子はJavaScriptコンソールやエレメ�
 
 <h2>script定義</h2>
 
-<p><code>
-\&lt;script type="text/javascript" src="d3/d3.v3.js"&gt;&lt;/script&gt;
-</code></p>
+<pre><code>\&lt;script type="text/javascript" src="d3/d3.v3.js"&gt;&lt;/script&gt;
+</code></pre>
 
 <h2>バージョン</h2>
 
-<p><code>
-d3.select('body').append('p').text('ver=' + d3.version);
+<pre><code>d3.select('body').append('p').text('ver=' + d3.version);
 ver=3.0.8
-</code></p>
+</code></pre>
 
 <h2>バインディング(結合）</h2>
 
@@ -167,14 +165,13 @@ d3.select('body').selectAll("div")
 
 <h2>datasetをランダムに作成し、グラフをかいてみる例。</h2>
 
-<p><code>
-var dataset=[];
+<pre><code>var dataset=[];
 for ( var i=0; i&lt;25; i++){ var nn = Math.random() * 30; dataset.push(nn);}
 d3.select('body').selectAll("div")
 .data(dataset).enter().append('div')
 .attr("style","display:inline-block; width:20px;margin-right:2px; background-color: teal;")
 .style("height",function(d){ var h = d*5; return h+"px"});
-</code></p>
+</code></pre>
 
 <h2>SVGを実際に書いてみる。</h2>
 
@@ -223,73 +220,62 @@ GeoJsonは当然JavaObjectと等価である。地理空間上の一点（緯度
 その他空間的属性を格納することができます。大量の地理情報を扱う場合はGeoJsonを使う価値があります。
 また、類似としてTopoJsonがあります。。これはGeoJsonを拡張したフォーマットであり、ファイルサイズが80-90%縮小します。</p>
 
-<p>```
-※サンプル：経度を緯度よりも先に書くのが規則なので注意！なので呼称としては"緯度経度"とは呼ばず"経度緯度"と呼んだ方が良い。
+<pre><code>※サンプル：経度を緯度よりも先に書くのが規則なので注意！なので呼称としては"緯度経度"とは呼ばず"経度緯度"と呼んだ方が良い。
 var geodata = {
    "type": "FeatureCollection",
-   "features": [</p>
-
-<pre><code>   {
-       "type": "Feature",
-       "geometry": {
-           "type": "Point",
-           "coordinates": [ 150.1282427, -24.471803 ]
-       },
-       "properties": {
-           "type": "town"
+   "features": [
+       {
+           "type": "Feature",
+           "geometry": {
+               "type": "Point",
+               "coordinates": [ 150.1282427, -24.471803 ]
+           },
+           "properties": {
+               "type": "town"
+           }
        }
-   }
-</code></pre>
-
-<p>   ]
+   ]
 };
-```</p>
+</code></pre>
 
 <h2>棒グラフ(SVG)を作成してみる。</h2>
 
 <p>※座標が、左上原点(0.0)なので、"y"属性を工夫して、左下原点っぽくみせてるところがポイント。
 ※あと、全体がひしゃげないように値"d"に４を掛け、見栄えを調整している。
 ※値dが色への表現とつながっている。
-```
+<code>
 var w = 500;
 var h = 100;
 var barpadding=1;
-var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,</p>
-
-<pre><code>                     11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-</code></pre>
-
-<p>var svg = d3.select("body").append("svg").attr("width", w).attr("height",h);
-var rects = svg.selectAll("rect").data(dataset).enter().append("rect").attr("x",function(d,i){ return i<em>(w/dataset.length);}).attr("y",0).attr("width", w/dataset.length-barpadding).attr("height", function(d){return d</em>4;}).attr("y", function(d){ return h-d<em>4;})
+var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+                         11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+var svg = d3.select("body").append("svg").attr("width", w).attr("height",h);
+var rects = svg.selectAll("rect").data(dataset).enter().append("rect").attr("x",function(d,i){ return i*(w/dataset.length);}).attr("y",0).attr("width", w/dataset.length-barpadding).attr("height", function(d){return d*4;}).attr("y", function(d){ return h-d*4;})
 .attr("fill", function(d) {
-return "rgb(0, 0, "+(d</em>10) + ")";});
+return "rgb(0, 0, "+(d*10) + ")";});
 svg.selectAll("text").data(dataset).enter().append("text").text(function(d){ return d;})
-.attr("x", function(d,i){ return i<em>(w/dataset.length)+(w/dataset.length - barpadding)/2;})
-.attr("y",function(d){ return h-(d</em>4)+14;})
+.attr("x", function(d,i){ return i*(w/dataset.length)+(w/dataset.length - barpadding)/2;})
+.attr("y",function(d){ return h-(d*4)+14;})
 .attr("text-anchor", "middle")
 .attr("font-family", "sans-serif")
 .attr("font-size", "11px")
 .attr("fill", "white");
-```</p>
+</code></p>
 
 <h2>散布図をSVGで作成してみる。</h2>
 
-<p>```
-var dataset = [</p>
-
-<pre><code>             [5, 20,5], [480, 90,6], [250, 50,7], [100, 33,8], [330, 95,9],
-             [410, 12, 10], [475, 44, 11], [25, 67, 12 ], [85, 21, 13], [220, 88, 14]
-         ];
-</code></pre>
-
-<p>var w = 500
+<pre><code>var dataset = [
+                 [5, 20,5], [480, 90,6], [250, 50,7], [100, 33,8], [330, 95,9],
+                 [410, 12, 10], [475, 44, 11], [25, 67, 12 ], [85, 21, 13], [220, 88, 14]
+             ];
+var w = 500
 var h = 100
 var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 svg.selectAll("circle").data(dataset).enter().append("circle").attr("cx", function(d) { return d[0];}).attr("cy", function(d){ return d[1];})
 .attr("r", function(d){return d[2];});
 svg.selectAll("text").data(dataset).enter().append("text").text(function(d){ return d[0] + "," + d[1]})
 .attr("x", function(d){ return d[0];}).attr("y", function(d){ return d[1];}).attr("font-family", "sans-serif").attr("font-size", "11px").attr("fill", "red");
-```</p>
+</code></pre>
 
 <h2>スケール</h2>
 
@@ -314,9 +300,8 @@ D3のスケールは自分で定義して使う関数です。スケール関数
 
 <p>次のデータセットは、ある果物屋さんで売られているリングの月ごとの売り上げです。</p>
 
-<p><code>
-var dataset =[ 100,200, 300, 400, 500];
-</code></p>
+<pre><code>var dataset =[ 100,200, 300, 400, 500];
+</code></pre>
 
 <p>売り上げは伸びています。数値の伸びを棒グラフで表現するとします。
 これまでの解説では棒の値をそのまま長さとして描画してきました。
@@ -361,9 +346,8 @@ var dataset =[ 100,200, 300, 400, 500];
 
 <h3>スケールを実際に作成してみる。</h3>
 
-<p><code>
-var scale = d3.scale.linear().domain([100, 500]).range([10, 350])
-</code></p>
+<pre><code>var scale = d3.scale.linear().domain([100, 500]).range([10, 350])
+</code></pre>
 
 <h3>スケールを用いて散布図をスケールする。</h3>
 
@@ -371,15 +355,11 @@ var scale = d3.scale.linear().domain([100, 500]).range([10, 350])
 入力ドメインはいくつにしようか。。0,500あたりにしようかとか考えるべきか？
 答えはNo。D3にはMinやMax等の関数が用意されてるので、datasetの値から自動でドメインを設定させる。</p>
 
-<p>```
-var dataset = [</p>
-
-<pre><code>             [5, 20,5], [480, 90,6], [250, 50,7], [100, 33,8], [330, 95,9],
-             [410, 12, 10], [475, 44, 11], [25, 67, 12 ], [85, 21, 13], [220, 88, 14],[600,150,4000]
-         ];
-</code></pre>
-
-<p>var w = 500;
+<pre><code>var dataset = [
+                 [5, 20,5], [480, 90,6], [250, 50,7], [100, 33,8], [330, 95,9],
+                 [410, 12, 10], [475, 44, 11], [25, 67, 12 ], [85, 21, 13], [220, 88, 14],[600,150,4000]
+             ];
+var w = 500;
 var h = 100;
 var padding = 30; //margin. この値を設定し左端と右端の余白を作る。range側(出力側)で適用されるので、悪影響はない。
 var xscale = d3.scale.linear().domain([0, d3.max(dataset, function(d){return d[0];}) ]).range([padding, w-padding*2]);
@@ -388,31 +368,29 @@ var rscale = d3.scale.linear().domain([0, d3.max(dataset, function(d){return d[2
 var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 svg.selectAll("circle").data(dataset).enter().append("circle").attr("cx", function(d) { return xscale(d[0]);}).attr("cy", function(d){ return yscale(d[1]);})
 .attr("r", function(d){return rscale(d[2]);});
-<code>
-</code>
-svg.selectAll("text").data(dataset).enter().append("text").text(function(d){ return d[0] + "," + d[1]})
+</code></pre>
+
+<pre><code>svg.selectAll("text").data(dataset).enter().append("text").text(function(d){ return d[0] + "," + d[1]})
 .attr("x", function(d){ return xscale(d[0]);}).attr("y", function(d){ return yscale(d[1]);}).attr("font-family", "sans-serif")
 .attr("font-size", "11px").attr("fill", "red");
-```</p>
+</code></pre>
 
 <h3>他のメソッド</h3>
 
-<p><code>
-・d3.scale.linear().nice()
-</code>
-range()内で指定した任意の入力ドメインの両端を一番近い区切りのより数値まで拡張します。
+<pre><code>・d3.scale.linear().nice()
+</code></pre>
+
+<p>range()内で指定した任意の入力ドメインの両端を一番近い区切りのより数値まで拡張します。
 例えば、[0.20147987687960267, 0.9966795523396417]という入力ドメインは、nice()を使うと、[0.2, 1]と区切りよく解釈します。</p>
 
-<p><code>
-・d3.scale.linear().rangeRound()
-</code></p>
+<pre><code>・d3.scale.linear().rangeRound()
+</code></pre>
 
 <p>range()の代わりにrangeRound()を使うことで、スケールの出力値は整数値に四捨五入されます。
 このメソッドが役に立つのは描画記号に正確なピクセル値を設定したい場合などで、アンチエイリアスによるぼやけた輪郭描画が回避できます。</p>
 
-<p><code>
-・d3.scale.linear().clamp(true)
-</code></p>
+<pre><code>・d3.scale.linear().clamp(true)
+</code></pre>
 
 <p>デフォルトでは線形スケールは出力レンジ外の数値を返すこともあります。
 たとえば、入力ドメイン外の数値が与えられたとき、スケールは出力レンジ外に出力します。
@@ -446,32 +424,29 @@ ordinal(序数)スケールには対応していません。</p>
 
 <h3>軸のセットアップ</h3>
 
-<p><code>
-軸を作成します
+<pre><code>軸を作成します
 var xaxis = d3.svg.axis();
 軸関数にはスケールを適用します。
 xaxis.scale(xscale);
 軸から見てどの位置にラベルを表示するか？
 xaxis.orient("bottom");
-</code></p>
+</code></pre>
 
-<p><code>
-.axis path,
+<pre><code>.axis path,
 .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;   //アンチエイリアス無効
 }
-</code>
-<code>
-.axis text {
+</code></pre>
+
+<pre><code>.axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-</code></p>
+</code></pre>
 
-<p><code>
-var xaxis= d3.svg.axis().scale(xscale).orient("bottom").ticks(5);        //ticksは目盛りのおおざっぱな個数
+<pre><code>var xaxis= d3.svg.axis().scale(xscale).orient("bottom").ticks(5);        //ticksは目盛りのおおざっぱな個数
 var yaxis= d3.svg.axis().scale(yscale).orient("left").ticks(5);        //ticksは目盛りのおおざっぱな個数
 svg.append("g")
   .attr("class", "axis")
@@ -481,20 +456,18 @@ svg.append("g")
   .attr("class", "axis")
   .attr("transform", "translate("+padding+",0)")
   .call(yaxis);                                                //group要素gを新規作成し、xaxisに渡す。つまりgの中にxaxisが出来る。
-</code></p>
+</code></pre>
 
 <h2>便利なフォーマット関数もd3は持っています。</h2>
 
-<p><code>
-var formatAsPercentage = d3.format(".1%");
+<pre><code>var formatAsPercentage = d3.format(".1%");
 tickFormat() メソッドを用いて目盛りをフォーマットします。
 xAxis.tickFormat(formatAsPercentage);
-</code></p>
+</code></pre>
 
 <h1>軸やスケールを踏まえた最終形SVGを下記に示します。</h1>
 
-<p><code>
-var dataset = [];
+<pre><code>var dataset = [];
 var numDataPoints = 50;
 var xRange = Math.random() * 1000;
 var yRange = Math.random() * 1000;
@@ -510,10 +483,9 @@ var padding = 30; //margin. この値を設定し左端と右端の余白を作�
 var xscale = d3.scale.linear().domain([0, d3.max(dataset, function(d){return d[0];}) ]).range([padding, w-padding*2]);
 var yscale = d3.scale.linear().domain([0, d3.max(dataset, function(d){return d[1];}) ]).range([h-padding, padding]);  //rangeを反転させ、Y軸上下反転
 var rscale = d3.scale.linear().domain([0, d3.max(dataset, function(d){return d[2];}) ]).range([2,6]);  //※重要:値がどんなに膨らもうと、最大6px以内に収まる。
-</code></p>
+</code></pre>
 
-<p><code>
-var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
+<pre><code>var svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 svg.selectAll("circle").data(dataset).enter().append("circle").attr("cx", function(d) { return xscale(d[0]);}).attr("cy", function(d){ return yscale(d[1]);})
 .attr("r", function(d){return rscale(d[2]);});
 svg.selectAll("text").data(dataset).enter().append("text").text(function(d){ return d[2];})
@@ -529,7 +501,7 @@ svg.append("g")
   .attr("class", "axis")
   .attr("transform", "translate("+padding+",0)")
   .call(yaxis);   
-</code></p>
+</code></pre>
 
 <h2>要素の削除例</h2>
 
@@ -537,8 +509,7 @@ svg.append("g")
 
 <h2>地図を書く例</h2>
 
-<p>```
-var path, map, xy;
+<pre><code>var path, map, xy;
 xy = d3.geo
 .mercator()     //投影法の指定
 .scale(16000)  //スケール（ズーム）の指定
@@ -546,20 +517,17 @@ xy = d3.geo
 path = d3.geo.path().projection(xy); //投影
 map = d3.select("body").append("svg:svg").attr("width", 960).attr("height", 600); //地図用のステージ(SVGタグ)を作成
 var gunma = d3.json("ttp://shimz.me/example/d3js/geo_example/geo2/gunma.geojson", function(json) {
-  return map.append("svg:g")</p>
-
-<pre><code>       .attr("class", "gunma")
-       .selectAll("path")
-       .data(json.features)
-       .enter()
-       .append("svg:path")
-       .attr("d", path)  //dataに投影法を適応
-       .attr("fill-opacity", 0.5)
-       .attr("fill", "green")
-       .attr("stroke", "#222")
+  return map.append("svg:g")
+           .attr("class", "gunma")
+           .selectAll("path")
+           .data(json.features)
+           .enter()
+           .append("svg:path")
+           .attr("d", path)  //dataに投影法を適応
+           .attr("fill-opacity", 0.5)
+           .attr("fill", "green")
+           .attr("stroke", "#222")
 </code></pre>
-
-<p>```</p>
 
     
   </div>
