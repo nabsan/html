@@ -4,13 +4,67 @@
   <subtitle>Blog of developer nabsan.</subtitle>
   <link href="http://nabsan.github.io/" />
   <link type="application/atom+xml" rel="self" href="http://nabsan.github.io/atom.xml" />
-  <updated>2014-03-26T23:27:20+09:00</updated>
+  <updated>2014-04-17T22:33:19+09:00</updated>
   <id>http://nabsan.github.io/</id>
   <author>
     <name>Nabsan</name>
     <email>nabsan@ikarosu.net</email>
   </author>
   
+  
+  <entry>
+    <id>http://nabsan.github.io/html/2014/04/R_useful_links</id>
+    <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/04/R_useful_links" />
+    <title>Useful links for R language</title>
+    <updated>2014-04-17T00:00:00+09:00</updated>
+    <author>
+      <name>Nabsan</name>
+      <email>nabsan@ikarosu.net</email>
+    </author>
+    <content type="html">&lt;h1&gt;Useful links for R.&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://rseek.org/&quot;&gt;Rseek&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;htttp://www.r-project.org/mail.html&quot;&gt;R ML&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/tagged/r&quot;&gt;Stack Overflow&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://search.twitter.com/search?q=%23rstats&quot;&gt;Twitter&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.r-bloggers.com&quot;&gt;R-Bloggers&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.vcasmo.com/user/drewconway&quot;&gt;Video Rchive&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <id>http://nabsan.github.io/html/2014/03/show_all_files</id>
+    <link type="text/html" rel="alternate" href="http://nabsan.github.io/2014/03/show_all_files" />
+    <title>Showing all files on OSX Mavericks</title>
+    <updated>2014-03-28T00:00:00+09:00</updated>
+    <author>
+      <name>Nabsan</name>
+      <email>nabsan@ikarosu.net</email>
+    </author>
+    <content type="html">&lt;hr /&gt;
+
+&lt;h1&gt;隠しファイルをすべて表示する&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;h2&gt;terminal.appを起動し次を入力すること&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt; &amp;gt;defaults write com.apple.finder AppleShowAllFiles TRUE
+ &amp;gt;killall Finder
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;(後日談)結局は、FALSEに戻して、非表示に戻しました。&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.trankynam.com/xtrafinder/&quot; title=&quot;xtrafinder&quot;&gt;xtrafinder&lt;/a&gt;
+を利用するようにしました。&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://nabsan.github.io/html/2014/03/iplogging_via_proxy</id>

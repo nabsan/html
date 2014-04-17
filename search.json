@@ -1,6 +1,30 @@
 [
   
     {
+  "title"    : "Useful links for R language",
+  "category" : "develop",
+  "tags"     : ["develop","r","statistics", null],
+  "href"     : "/2014/04/R_useful_links",
+  "date"     : {
+    "day"   : "17",
+    "month" : "April",
+    "year"  : "2014"
+  }
+},
+  
+    {
+  "title"    : "Showing all files on OSX Mavericks",
+  "category" : "Tips",
+  "tags"     : ["osx","Maveriks", null],
+  "href"     : "/2014/03/show_all_files",
+  "date"     : {
+    "day"   : "28",
+    "month" : "March",
+    "year"  : "2014"
+  }
+},
+  
+    {
   "title"    : "IP Logging via proxyPass",
   "category" : "Tips",
   "tags"     : ["log","middleware", null],
