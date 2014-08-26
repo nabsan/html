@@ -13,6 +13,18 @@
 },
   
     {
+  "title"    : "R_useful_links",
+  "category" : "",
+  "tags"     : [ null],
+  "href"     : "/2014/04/R_useful_links",
+  "date"     : {
+    "day"   : "17",
+    "month" : "April",
+    "year"  : "2014"
+  }
+},
+  
+    {
   "title"    : "Showing all files on OSX Mavericks",
   "category" : "Tips",
   "tags"     : ["osx","Maveriks", null],
@@ -31,6 +43,18 @@
   "href"     : "/2014/03/iplogging_via_proxy",
   "date"     : {
     "day"   : "26",
+    "month" : "March",
+    "year"  : "2014"
+  }
+},
+  
+    {
+  "title"    : "D3.js Cheat",
+  "category" : "",
+  "tags"     : [ null],
+  "href"     : "/2014/03/D3.js-Cheat",
+  "date"     : {
+    "day"   : "13",
     "month" : "March",
     "year"  : "2014"
   }
@@ -64,6 +88,18 @@
   "title"    : "ecoral.js ver 1.0..",
   "category" : "develop",
   "tags"     : ["develop javascript", null],
+  "href"     : "/2013/05/hwave_ecoral.js",
+  "date"     : {
+    "day"   : "14",
+    "month" : "May",
+    "year"  : "2013"
+  }
+},
+  
+    {
+  "title"    : "Hwave_ecoral.js",
+  "category" : "",
+  "tags"     : [ null],
   "href"     : "/2013/05/hwave_ecoral.js",
   "date"     : {
     "day"   : "14",
