@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <!-- Posts -->
+  <url><loc>http://nabsan.github.io/html/2014/08/clojure_tips</loc></url>
+  
   <url><loc>http://nabsan.github.io/html/2014/04/R_useful_links</loc></url>
   
   <url><loc>http://nabsan.github.io/html/2014/04/R_useful_links</loc></url>
@@ -69,6 +71,8 @@
   <url><loc>http://nabsan.github.io/html/search.html?tags=r</loc></url>
   
   <url><loc>http://nabsan.github.io/html/search.html?tags=statistics</loc></url>
+  
+  <url><loc>http://nabsan.github.io/html/search.html?tags=clojure</loc></url>
   
   
   <!-- Category Indexes -->

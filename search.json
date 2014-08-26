@@ -1,6 +1,18 @@
 [
   
     {
+  "title"    : "Clojure Tips",
+  "category" : "Tips",
+  "tags"     : ["clojure", null],
+  "href"     : "/2014/08/clojure_tips",
+  "date"     : {
+    "day"   : "26",
+    "month" : "August",
+    "year"  : "2014"
+  }
+},
+  
+    {
   "title"    : "Useful links for R language",
   "category" : "develop",
   "tags"     : ["develop","r","statistics", null],
@@ -49,9 +61,9 @@
 },
   
     {
-  "title"    : "D3.js Cheat",
-  "category" : "",
-  "tags"     : [ null],
+  "title"    : "D3.js Cheat memo",
+  "category" : "develop",
+  "tags"     : ["develop","javascript","D3", null],
   "href"     : "/2014/03/D3.js-Cheat",
   "date"     : {
     "day"   : "13",
@@ -61,9 +73,9 @@
 },
   
     {
-  "title"    : "D3.js Cheat memo",
-  "category" : "develop",
-  "tags"     : ["develop","javascript","D3", null],
+  "title"    : "D3.js Cheat",
+  "category" : "",
+  "tags"     : [ null],
   "href"     : "/2014/03/D3.js-Cheat",
   "date"     : {
     "day"   : "13",
@@ -85,9 +97,9 @@
 },
   
     {
-  "title"    : "ecoral.js ver 1.0..",
-  "category" : "develop",
-  "tags"     : ["develop javascript", null],
+  "title"    : "Hwave_ecoral.js",
+  "category" : "",
+  "tags"     : [ null],
   "href"     : "/2013/05/hwave_ecoral.js",
   "date"     : {
     "day"   : "14",
@@ -97,9 +109,9 @@
 },
   
     {
-  "title"    : "Hwave_ecoral.js",
-  "category" : "",
-  "tags"     : [ null],
+  "title"    : "ecoral.js ver 1.0..",
+  "category" : "develop",
+  "tags"     : ["develop javascript", null],
   "href"     : "/2013/05/hwave_ecoral.js",
   "date"     : {
     "day"   : "14",
